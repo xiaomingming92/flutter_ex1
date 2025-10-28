@@ -1,14 +1,34 @@
 /*
- * @Author: XIAOLANHAI-Z2SFF\xiaolanhai wujixmm@gmail.com
- * @Date: 2025-05-26 23:50:20
- * @LastEditors: XIAOLANHAI-Z2SFF\xiaolanhai wujixmm@gmail.com
- * @LastEditTime: 2025-05-27 22:43:02
- * @FilePath: \ex1\lib\main.dart
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author        : xmm wujixmm@gmail.com
+ * @Date          : 2025-10-23 12:56:05
+ * @LastEditors   : xmm wujixmm@gmail.com
+ * @LastEditTime  : 2025-10-28 15:23:03
+ * @FilePath      : /ex1/lib/main.dart
+ * @Description   : 
+ * 
  */
+
+import 'package:ex1/config/env.dart';
 import 'package:flutter/material.dart';
 import 'app/app.dart';
 
 void main() {
+  setEnvFun();
   runApp(const App());
+}
+
+void setEnvFun() {
+  const flavor = String.fromEnvironment('FLAVOR',defaultValue: 'DEV');
+  switch(flavor) {
+    case 'test': {
+      Env.setEnv(Environment.test);
+      break;
+    }
+    case 'uat': 
+      Env.setEnv(Environment.uat);
+      break;
+    case 'prod': 
+      Env.setEnv(Environment.prod);
+      break;
+  }
 }
