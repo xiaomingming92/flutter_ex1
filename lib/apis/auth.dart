@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:37
  * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-10-28 15:13:17
+ * @LastEditTime  : 2025-10-30 23:42:58
  * @FilePath      : /ex1/lib/apis/auth.dart
  * @Description   : 
  * 
@@ -34,7 +34,7 @@ class AuthApi {
     });
   }
 
-  static void logOut() async {
+  static void logOut() {
     TokenManager.clear();
   }
 }

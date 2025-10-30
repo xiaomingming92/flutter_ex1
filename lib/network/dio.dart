@@ -2,9 +2,9 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
  * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-10-28 15:10:40
+ * @LastEditTime  : 2025-10-30 00:14:51
  * @FilePath      : /ex1/lib/network/dio.dart
- * @Description   : dio初始化和拦截器
+ * @Description   : dio初始化和拦截器,jihua
  * 
  */
 
@@ -13,6 +13,8 @@ import '../config/env.dart';
 
 import 'token_manager.dart';
 import 'error_handler.dart';
+
+// TODO getX包装一层
 
 class DioClient {
   static Dio? _dio;
