@@ -10,7 +10,7 @@
 import 'package:flutter/material.dart';
 import '../apis/index.dart';
 import 'package:get/get.dart';
-import '../controller/auth_controller.dart';
+import '../intent_controller/auth_intent_controller.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -19,9 +19,10 @@ class LoginPage extends StatelessWidget {
     final userInfo = await UserApi.getUserInfo();
     print('userInfo: $userInfo');
   }
+
   @override
   Widget build(BuildContext context) {
-    final authorController = Get.put(AuthController());
+    final authIntentController = Get.put(AuthIntentController());
     final usernameController = TextEditingController();
     final passwordController = TextEditingController();
 
@@ -33,29 +34,25 @@ class LoginPage extends StatelessWidget {
           children: [
             TextField(
               controller: usernameController,
-              decoration: const InputDecoration(
-                labelText: "用户名",
-              ),
+              decoration: const InputDecoration(labelText: "用户名"),
             ),
             TextField(
               controller: passwordController,
-              decoration: const InputDecoration(
-                labelText: '密码',
-              )
+              decoration: const InputDecoration(labelText: '密码'),
             ),
             SizedBox(height: 30),
             ElevatedButton(
-              onPressed:() => {
-                authorController.login(
+              onPressed: () => {
+                authIntentController.handleLoginIntent(
                   usernameController.text,
-                  passwordController.text
-                )
+                  passwordController.text,
+                ),
               },
-              child: Text("请登录")
-            )
-          ]
-        )
-      )
+              child: Text("请登录"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

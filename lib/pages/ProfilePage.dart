@@ -9,9 +9,9 @@
  */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controller/auth_controller.dart';
+import '../intent_controller/auth_intent_controller.dart';
 
-class ProfilePage extends StatefulWidget{ 
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
@@ -19,21 +19,21 @@ class ProfilePage extends StatefulWidget{
 }
 
 class ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.find<AuthController>();
+    final AuthIntentController authIntentController =
+        Get.find<AuthIntentController>();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text("个人中心"),
           ElevatedButton(
-            onPressed: () => authController.logout(),
-            child: Text("登出")
-          )
+            onPressed: () => authIntentController.handleLogoutIntent(),
+            child: Text("登出"),
+          ),
         ],
-      )
+      ),
     );
   }
 }

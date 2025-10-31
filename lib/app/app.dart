@@ -11,7 +11,7 @@ import "package:flutter/material.dart";
 import "../routes/routes.dart";
 import "../theme/theme.dart" show ThemeConfig;
 import "package:get/get.dart";
-import '../controller/auth_controller.dart';
+import '../intent_controller/auth_intent_controller.dart';
 
 /**
  * @description: 这个模块主要负责整体的应用结构：materialApp级别
@@ -19,10 +19,10 @@ import '../controller/auth_controller.dart';
  */
 class App extends StatelessWidget {
   const App({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
-    Get.put(AuthController());
+    Get.put(AuthIntentController());
 
     return GetMaterialApp(
       title: "flutter_ex1",
