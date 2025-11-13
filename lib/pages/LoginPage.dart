@@ -1,9 +1,9 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 15:24:07
- * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-10-31 00:02:13
- * @FilePath      : /ex1/lib/pages/LoginPage.dart
+ * @LastEditors  : wujixmm wujixmm@gmail.com
+ * @LastEditTime : 2025-11-13 14:12:49
+ * @FilePath     : /ex1/lib/pages/LoginPage.dart
  * @Description   : 登录页
  * 
  */
@@ -38,6 +38,7 @@ class LoginPage extends StatelessWidget {
             ),
             TextField(
               controller: passwordController,
+              obscureText: true,
               decoration: const InputDecoration(labelText: '密码'),
             ),
             SizedBox(height: 30),
