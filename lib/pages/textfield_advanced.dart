@@ -2,7 +2,7 @@
  * @Author       : wujixmm
  * @Date         : 2025-11-12 08:40:06
  * @LastEditors  : wujixmm wujixmm@gmail.com
- * @LastEditTime : 2025-11-13 13:44:52
+ * @LastEditTime : 2025-11-19 06:58:57
  * @FilePath     : /ex1/lib/pages/textfield_advanced.dart
  * @Description  : 
  * 
@@ -10,6 +10,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class TextfieldAdvanced extends StatefulWidget {
   const TextfieldAdvanced({super.key});
@@ -85,13 +86,14 @@ class _TextfieldAdvancedState extends State<TextfieldAdvanced> {
       _amountCtl.text = '';
     }
     final int amount = int.parse(digits);
-    final String formatted = amount.toString().replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
+    // final String formatted = amount.toString().replaceAllMapped(
+    //   RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+    //   (Match m) => '${m[1]},',
+    // );
+    final String formattedAmount = NumberFormat("#,###.00").format(amount);
     _amountCtl.value = TextEditingValue(
-      text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
+      text: formattedAmount,
+      selection: TextSelection.collapsed(offset: formattedAmount.length),
     );
   }
 
@@ -166,18 +168,56 @@ class _TextfieldAdvancedState extends State<TextfieldAdvanced> {
                   onPressed: () {
                     FocusScope.of(context).requestFocus(_firstFocusNode);
                   },
+                  style:
+                      ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                      ).copyWith(
+                        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                          (states) {
+                            if (states.contains(WidgetState.pressed)) {
+                              return Colors.red; // 按压时变红
+                            }
+                            return Colors.blue; // 默认蓝色
+                          },
+                        ),
+                      ),
                   child: Text("聚焦第一个输入框"),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     FocusScope.of(context).requestFocus(_secFocusNode);
                   },
+                  style:
+                      ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        elevation: 8,
+                      ).copyWith(
+                        elevation: WidgetStateProperty.resolveWith<double>((
+                          states,
+                        ) {
+                          if (states.contains(WidgetState.pressed)) {
+                            return 2; // 按压时降低阴影
+                          }
+                          return 8; // 默认阴影高度
+                        }),
+                      ),
                   child: Text("聚焦到第二个输入框"),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                   },
+                  style:
+                      ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                      ).copyWith(
+                        overlayColor: WidgetStateProperty.all(
+                          Colors.black45,
+                        ), // 按压时的覆盖层
+                      ),
                   child: Text('取消所有焦点'),
                 ),
               ],
