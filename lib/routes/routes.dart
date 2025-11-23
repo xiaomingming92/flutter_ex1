@@ -12,6 +12,7 @@ import "package:flutter/material.dart";
 
 // import "../pages/HomePage.dart";
 import "../pages/HomePage.custom.dart";
+// import "../pages/HomePage.tabcontroller.dart";
 import "../pages/FeedPage.dart";
 import "../pages/GalleryPage.dart";
 import "../pages/PostPage.dart";
@@ -35,17 +36,18 @@ class Routes {
     GetPage(
       name: home,
       page: () => const HomePage(),
-      middlewares: [AuthMiddleware()],
+      // page: () => const HomePageTabController(),
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: feed,
       page: () => const FeedPage(),
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: gallery,
       page: () => const GalleryPage(),
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: post,
@@ -53,21 +55,22 @@ class Routes {
         final userId = int.parse(Get.parameters['userId'] ?? '0');
         return PostPage(userId: userId);
       },
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: message,
       page: () => const MessagePage(),
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: profile,
       page: () => const ProfilePage(),
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
   ];
 }
 
+// 已移除 AuthMiddleware 中间件
 class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
