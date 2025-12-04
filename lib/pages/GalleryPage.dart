@@ -1,8 +1,8 @@
 /*
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2025-10-24 10:18:45
- * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @LastEditTime: 2025-11-13 14:40:00
+ * @LastEditors: xiaomingming wujixmm@gmail.com
+ * @LastEditTime: 2025-12-04 13:43:16
  * @FilePath: /ex1/lib/pages/GalleryPage.dart
  * @Description: 瀑布流页面
  */
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import '../apis/gallary.dart';
 import '../widgets/waterfall_flow.dart';
 import '../widgets/gallery_item_widget.dart';
-import '../widgets/gallery_skeleton.dart';
+// import '../widgets/gallery_skeleton.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -147,47 +147,7 @@ class GalleryPageState extends State<GalleryPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () => _loadData(isLoadMore: false),
-        child: WaterfallFlow<GalleryItem>(
-          items: _items,
-          crossAxisCount: _crossAxisCount,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-          scrollController: _scrollController,
-          onLoadMore: _loadMore,
-          loadMoreThreshold: 100.0,
-          isLoading: _isLoading,
-          hasMore: _hasMore,
-          hasError: _hasError,
-          itemHeightGetter: _getItemHeight,
-          skeletonBuilder: GallerySkeleton(
-            crossAxisCount: _crossAxisCount,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-          ),
-          itemBuilder: (context, item, index) {
-            return GalleryItemWidget(
-              item: item,
-              width: columnWidth,
-              imageAspectRatio: _imageAspectRatio,
-            );
-          },
-          emptyBuilder: const Center(
-            child: Text('暂无数据'),
-          ),
-          errorBuilder: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('加载失败'),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => _loadData(isLoadMore: false),
-                  child: const Text('重试'),
-                ),
-              ],
-            ),
-          ),
-        ),
+        child: 
       ),
     );
   }
