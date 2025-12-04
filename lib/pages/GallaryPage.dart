@@ -2,15 +2,14 @@
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2025-10-24 10:18:45
  * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-04 13:43:16
+ * @LastEditTime: 2025-12-04 17:04:17
  * @FilePath: /ex1/lib/pages/GalleryPage.dart
  * @Description: 瀑布流页面
  */
+import 'package:ex1/widgets/gallary_item_widget.dart';
 import 'package:flutter/material.dart';
 import '../apis/gallary.dart';
-import '../widgets/waterfall_flow.dart';
-import '../widgets/gallery_item_widget.dart';
-// import '../widgets/gallery_skeleton.dart';
+import '../widgets/waterfall_flow_simple.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -21,20 +20,20 @@ class GalleryPage extends StatefulWidget {
 
 class GalleryPageState extends State<GalleryPage> {
   final ScrollController _scrollController = ScrollController();
-  
+
   // 数据列表
   List<GalleryItem> _items = [];
-  
+
   // 分页相关
   int _currentPage = 1;
   static const int _pageSize = 10;
   bool _isLoading = false;
   bool _hasMore = true;
   bool _hasError = false;
-  
+
   // 列数控制
   int _crossAxisCount = 2;
-  
+
   // 图片宽高比（用于contain显示）
   double _imageAspectRatio = 0.75;
 
@@ -53,7 +52,7 @@ class GalleryPageState extends State<GalleryPage> {
   /// 加载数据
   Future<void> _loadData({bool isLoadMore = false}) async {
     if (_isLoading) return;
-    
+
     setState(() {
       _isLoading = true;
       _hasError = false;
@@ -76,19 +75,19 @@ class GalleryPageState extends State<GalleryPage> {
           _items = newItems;
           _currentPage = 1;
         }
-        
+
         // 判断是否还有更多数据
         _hasMore = newItems.length >= _pageSize;
         _isLoading = false;
       });
     } catch (e) {
       if (!mounted) return;
-      
+
       setState(() {
         _hasError = true;
         _isLoading = false;
       });
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -112,10 +111,11 @@ class GalleryPageState extends State<GalleryPage> {
   /// 计算item高度（用于瀑布流布局）
   double _getItemHeight(GalleryItem item, double columnWidth) {
     // 使用item的宽高比，如果没有则使用默认值
-    final aspectRatio = item.width != null && item.height != null && item.height! > 0
+    final aspectRatio =
+        item.width != null && item.height != null && item.height! > 0
         ? item.width! / item.height!
         : _imageAspectRatio;
-    
+
     return columnWidth / aspectRatio;
   }
 
@@ -147,7 +147,18 @@ class GalleryPageState extends State<GalleryPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () => _loadData(isLoadMore: false),
-        child: 
+        child: WaterfallFlowSimple(
+          items: _items,
+          crossAxisCount: _crossAxisCount,
+          mainAxisSpacing: 8.0,
+          crossAxisSpacing: 8.0,
+          itemBuilder: (context, item, index) => GalleryItemWidget(
+            item: item,
+            width: columnWidth,
+            imageAspectRatio: _getItemHeight(item, columnWidth),
+          ),
+          isLoading: _isLoading,
+        ),
       ),
     );
   }

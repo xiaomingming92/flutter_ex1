@@ -1,8 +1,8 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-23 12:56:05
- * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-10-30 23:54:10
+ * @LastEditors: xiaomingming wujixmm@gmail.com
+ * @LastEditTime: 2025-12-04 15:42:26
  * @FilePath      : /ex1/lib/routes/routes.dart
  * @Description   : 路由管理
  * 
@@ -14,7 +14,7 @@ import "package:flutter/material.dart";
 import "../pages/HomePage.custom.dart";
 // import "../pages/HomePage.tabcontroller.dart";
 import "../pages/FeedPage.dart";
-import "../pages/GalleryPage.dart";
+import "../pages/GallaryPage.dart";
 import "../pages/PostPage.dart";
 import "../pages/Messages.dart";
 import "../pages/ProfilePage.dart";
