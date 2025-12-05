@@ -1,30 +1,30 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:43
- * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-11-13 14:16:03
- * @FilePath      : /ex1/lib/apis/gallary.dart
+ * @LastEditors: xiaomingming wujixmm@gmail.com
+ * @LastEditTime: 2025-12-05 11:05:46
+ * @FilePath: /ex1/lib/apis/gallary.dart
  * @Description   : 相册接口
  * 
  */
 import '../network/request.dart';
 
-class GalleryApi {
+class GallaryApi {
   /// 获取相册列表
   /// [page] 页码，从1开始
   /// [pageSize] 每页数量，默认10
-  static Future<List<GalleryItem>> getGalleryList({
+  static Future<List<GallaryItem>> getGallaryList({
     int page = 1,
     int pageSize = 10,
   }) async {
-    final res = await Request.get('/gallery/list', params: {
-      'page': page,
-      'pageSize': pageSize,
-    });
-    
+    final res = await Request.get(
+      '/gallery/list',
+      params: {'page': page, 'pageSize': pageSize},
+    );
+
     if (res.data != null && res.data is List) {
       return (res.data as List)
-          .map((item) => GalleryItem.fromJson(item))
+          .map((item) => GallaryItem.fromJson(item))
           .toList();
     }
     return [];
@@ -32,7 +32,7 @@ class GalleryApi {
 }
 
 /// 相册数据模型
-class GalleryItem {
+class GallaryItem {
   final String id;
   final String imageUrl;
   final double? width;
@@ -40,7 +40,7 @@ class GalleryItem {
   final String? title;
   final String? description;
 
-  GalleryItem({
+  GallaryItem({
     required this.id,
     required this.imageUrl,
     this.width,
@@ -49,8 +49,8 @@ class GalleryItem {
     this.description,
   });
 
-  factory GalleryItem.fromJson(Map<String, dynamic> json) {
-    return GalleryItem(
+  factory GallaryItem.fromJson(Map<String, dynamic> json) {
+    return GallaryItem(
       id: json['id']?.toString() ?? '',
       imageUrl: json['imageUrl'] ?? json['image_url'] ?? '',
       width: json['width']?.toDouble(),
@@ -69,4 +69,3 @@ class GalleryItem {
     return 1.0;
   }
 }
-

@@ -2,7 +2,7 @@
  * @Author: xiaomingming wujixmm@gmail.com
  * @Date: 2025-12-04 08:53:23
  * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-04 15:42:59
+ * @LastEditTime: 2025-12-05 13:22:51
  * @FilePath: /ex1/lib/widgets/gallary_item_widget2.dart
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -13,7 +13,7 @@ import 'gallary_item_skeleton.dart';
 
 class GallaryItemWidget extends StatelessWidget {
   // 单个瀑布流内部元素
-  final GalleryItem item;
+  final GallaryItem item;
 
   // 内部元素宽度
   final double? width;

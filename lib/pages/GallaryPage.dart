@@ -2,11 +2,12 @@
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2025-10-24 10:18:45
  * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-04 17:04:17
- * @FilePath: /ex1/lib/pages/GalleryPage.dart
+ * @LastEditTime: 2025-12-05 13:48:00
+ * @FilePath: /ex1/lib/pages/GallaryPage.dart
  * @Description: 瀑布流页面
  */
 import 'package:ex1/widgets/gallary_item_widget.dart';
+import 'package:ex1/widgets/gallary_item_widget2.dart';
 import 'package:flutter/material.dart';
 import '../apis/gallary.dart';
 import '../widgets/waterfall_flow_simple.dart';
@@ -22,7 +23,7 @@ class GalleryPageState extends State<GalleryPage> {
   final ScrollController _scrollController = ScrollController();
 
   // 数据列表
-  List<GalleryItem> _items = [];
+  List<GallaryItem> _items = [];
 
   // 分页相关
   int _currentPage = 1;
@@ -60,7 +61,7 @@ class GalleryPageState extends State<GalleryPage> {
 
     try {
       final page = isLoadMore ? _currentPage + 1 : 1;
-      final newItems = await GalleryApi.getGalleryList(
+      final newItems = await GallaryApi.getGallaryList(
         page: page,
         pageSize: _pageSize,
       );
@@ -109,7 +110,7 @@ class GalleryPageState extends State<GalleryPage> {
   }
 
   /// 计算item高度（用于瀑布流布局）
-  double _getItemHeight(GalleryItem item, double columnWidth) {
+  double _getItemHeight(GallaryItem item, double columnWidth) {
     // 使用item的宽高比，如果没有则使用默认值
     final aspectRatio =
         item.width != null && item.height != null && item.height! > 0
@@ -152,7 +153,7 @@ class GalleryPageState extends State<GalleryPage> {
           crossAxisCount: _crossAxisCount,
           mainAxisSpacing: 8.0,
           crossAxisSpacing: 8.0,
-          itemBuilder: (context, item, index) => GalleryItemWidget(
+          itemBuilder: (context, item, index) => GallaryItemWidget(
             item: item,
             width: columnWidth,
             imageAspectRatio: _getItemHeight(item, columnWidth),

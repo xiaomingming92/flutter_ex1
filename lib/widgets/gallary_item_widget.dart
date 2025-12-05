@@ -1,9 +1,9 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-11-13 14:30:00
- * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-11-13 14:30:00
- * @FilePath      : /ex1/lib/widgets/gallery_item_widget.dart
+ * @LastEditors: xiaomingming wujixmm@gmail.com
+ * @LastEditTime: 2025-12-05 13:22:42
+ * @FilePath: /ex1/lib/widgets/gallary_item_widget.dart
  * @Description   : 相册item组件，支持按比例contain显示
  * 
  */
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import '../apis/gallary.dart';
 
 class GalleryItemWidget extends StatelessWidget {
-  final GalleryItem item;
+  final GallaryItem item;
   final double? width;
   final double imageAspectRatio;
 
@@ -26,12 +26,13 @@ class GalleryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final itemWidth = width ?? screenWidth;
-    
+
     // 使用item的宽高比，如果没有则使用传入的默认值
-    final aspectRatio = item.width != null && item.height != null && item.height! > 0
+    final aspectRatio =
+        item.width != null && item.height != null && item.height! > 0
         ? item.width! / item.height!
         : imageAspectRatio;
-    
+
     // 计算高度
     final itemHeight = itemWidth / aspectRatio;
 
@@ -56,7 +57,7 @@ class GalleryItemWidget extends StatelessWidget {
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
                       ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
+                            loadingProgress.expectedTotalBytes!
                       : null,
                 ),
               );
@@ -84,18 +85,12 @@ class GalleryItemWidget extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.7),
-                    ],
+                    colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
                   ),
                 ),
                 child: Text(
                   item.title!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -106,4 +101,3 @@ class GalleryItemWidget extends StatelessWidget {
     );
   }
 }
-

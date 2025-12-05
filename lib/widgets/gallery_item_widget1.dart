@@ -2,7 +2,7 @@
  * @Author: xiaomingming wujixmm@gmail.com
  * @Date: 2025-12-03 15:56:57
  * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-03 17:33:57
+ * @LastEditTime: 2025-12-05 13:23:00
  * @FilePath: /ex1/lib/widgets/gallery_item_widget1.dart
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import '../apis/gallary.dart';
 
 class GalleryItemWidget extends StatelessWidget {
-  final GalleryItem item;
+  final GallaryItem item;
   final double? width;
   final double imageAspectRatio;
 
