@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:43
  * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-05 11:05:46
+ * @LastEditTime: 2025-12-06 13:26:54
  * @FilePath: /ex1/lib/apis/gallary.dart
  * @Description   : 相册接口
  * 
@@ -39,6 +39,10 @@ class GallaryItem {
   final double? height;
   final String? title;
   final String? description;
+  final double? width;
+  final double? height;
+  final String articleId;
+  
 
   GallaryItem({
     required this.id,
