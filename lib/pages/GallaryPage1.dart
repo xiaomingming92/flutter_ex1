@@ -1,5 +1,7 @@
 import 'package:ex1/apis/gallary.dart';
 import 'package:ex1/widgets/filter_widget.dart';
+import 'package:ex1/widgets/gallary_item_widget2.dart';
+import 'package:ex1/widgets/waterfall_flow_simple.dart';
 import 'package:flutter/material.dart';
 import "package:ex1/widgets/gallary_operate_banner.dart";
 
@@ -85,12 +87,7 @@ class GallaryPage1State extends State<GallaryPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('图片展示')),
-      // TODO 规划一个运营banner区域
-
-      // TODO 搜索框
-      // TODO 筛选区域
-      // TODO 瀑布流展示区域
+      appBar: AppBar(title: const Text('瀑布流展示')),
       body: Column(
         children: [
           // 运营banner区域, 感觉可以新增个组件,2个图片占一行,下面再来个文字描述
@@ -166,7 +163,13 @@ class GallaryPage1State extends State<GallaryPage1> {
             ),
           ),
           // 瀑布流展示区域
-          Expanded(child: Text('瀑布流展示区域')),
+          Expanded(
+            child: WaterfallFlowSimple(
+              items: _items,
+              itemBuilder: (context, item, index) =>
+                  GallaryItemWidget(item: item),
+            ),
+          ),
         ],
       ),
     );
