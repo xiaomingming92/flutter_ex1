@@ -35,9 +35,11 @@ class AuthIntentController extends GetxController {
   Future<void> handleLoginIntent(String username, String passwd) async {
     try {
       final res = await AuthApi.login(username, passwd);
-      if (res) {
+      if (res != null) {
         isLoggedIn.value = true;
         Get.offAllNamed('/home');
+      } else {
+        Get.snackbar("登录失败: ", "登录响应格式错误");
       }
     } catch (e) {
       Get.snackbar("登录失败: ", e.toString());

@@ -26,7 +26,7 @@ class TokenManager {
     try {
       final dio = Dio(BaseOptions(baseUrl: Env.current.baseUrl));
       final res = await dio.post('/auth/refresh', data: {
-        'refresh_toekn': _refreshToken
+        'refresh_token': _refreshToken
       });
       final data =res.data;
       _accesstoken = data['access_token'];
