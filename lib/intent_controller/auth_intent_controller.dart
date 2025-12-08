@@ -1,8 +1,8 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-30 23:33:39
- * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-10-30 23:43:22
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-08 16:51:41
  * @FilePath      : /ex1/lib/intent_controller/auth_intent.dart
  * @Description   : Auth Intent Controller - 处理用户认证相关的意图
  */
@@ -24,8 +24,16 @@ class AuthIntentController extends GetxController {
    * @return         {*}
    */
   Future<void> _checkLoginStatus() async {
-    final token = await TokenManager.getAccessToken();
-    isLoggedIn.value = token != null;
+    final accessToken = await TokenManager.getAccessToken();
+    final refreshToken = await TokenManager.getRefreshToken();
+    final refreshExpiresAt = await TokenManager.getRefreshExpiresAt();
+    
+    if(accessToken == null || refreshToken == null || refreshExpiresAt == null) {
+      isLoggedIn.value = false;
+      return;
+    }
+    
+    isLoggedIn.value = accessToken != null && refreshToken != null && refreshExpiresAt >= DateTime.now().millisecondsSinceEpoch;
   }
 
   /**
@@ -35,6 +43,17 @@ class AuthIntentController extends GetxController {
   Future<void> handleLoginIntent(String username, String passwd) async {
     try {
       final res = await AuthApi.login(username, passwd);
+      final LoginRes resData = LoginRes(
+        accessToken: res.data['accessToken'],
+        refreshToken: res.data['refreshToken'],
+        accessExpiresAt: res.data['accessExpiresAt'],
+        refreshExpiresAt: res.data['refreshExpiresAt'],
+      );
+      
+      print('login response:::$resData');
+      // 使用toMap()方法将LoginRes转换为Map
+      await TokenManager.setTokens(resData);
+      
       if (res != null) {
         isLoggedIn.value = true;
         Get.offAllNamed('/home');

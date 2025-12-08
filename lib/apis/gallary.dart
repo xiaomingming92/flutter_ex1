@@ -1,8 +1,8 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:43
- * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-06 13:26:54
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-08 17:13:34
  * @FilePath: /ex1/lib/apis/gallary.dart
  * @Description   : 相册接口
  * 
@@ -39,9 +39,7 @@ class GallaryItem {
   final double? height;
   final String? title;
   final String? description;
-  final double? width;
-  final double? height;
-  final String articleId;
+  final String? articleId;
   
 
   GallaryItem({
@@ -51,6 +49,7 @@ class GallaryItem {
     this.height,
     this.title,
     this.description,
+    required this.articleId,  
   });
 
   factory GallaryItem.fromJson(Map<String, dynamic> json) {
@@ -61,6 +60,7 @@ class GallaryItem {
       height: json['height']?.toDouble(),
       title: json['title'],
       description: json['description'],
+      articleId: json['articleId']?.toString(),
     );
   }
 

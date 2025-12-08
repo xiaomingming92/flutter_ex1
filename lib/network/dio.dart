@@ -1,8 +1,8 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
- * @LastEditors   : xmm wujixmm@gmail.com
- * @LastEditTime  : 2025-10-30 00:14:51
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-08 15:29:22
  * @FilePath      : /ex1/lib/network/dio.dart
  * @Description   : dio初始化和拦截器,jihua
  * 
@@ -40,7 +40,6 @@ class DioClient {
             final token = await TokenManager.getAccessToken();
             if(token != null) {
               options.headers['Authorization'] = 'Bearer $token';
-
             }
             return func.next(options);
           },

@@ -1,8 +1,8 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-23 12:56:05
- * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-04 15:42:26
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-08 16:59:01
  * @FilePath      : /ex1/lib/routes/routes.dart
  * @Description   : 路由管理
  * 
@@ -37,17 +37,17 @@ class Routes {
       name: home,
       page: () => const HomePage(),
       // page: () => const HomePageTabController(),
-      // middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: feed,
       page: () => const FeedPage(),
-      // middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: gallery,
       page: () => const GalleryPage(),
-      // middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: post,
@@ -55,17 +55,17 @@ class Routes {
         final userId = int.parse(Get.parameters['userId'] ?? '0');
         return PostPage(userId: userId);
       },
-      // middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: message,
       page: () => const MessagePage(),
-      // middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: profile,
       page: () => const ProfilePage(),
-      // middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware()],
     ),
   ];
 }
