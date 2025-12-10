@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-10 10:29:13
+ * @LastEditTime: 2025-12-10 11:39:21
  * @FilePath      : /ex1/lib/network/dio.dart
  * @Description   : dio初始化和拦截器,jihua
  * 
@@ -48,9 +48,23 @@ class DioClient {
           },
           onResponse: (response, handler) {
             final d = response.data;
-            if (d is Map && d.containsKey('data')) {
-              print('response.data.data ===> ${d['data']}');
+            DioResponseData<dynamic> wrappedData;
+            
+            if (d is Map) {
+              wrappedData = (
+                code: d['code'] as int? ?? -1,
+                message: d['message'] as String? ?? '',
+                data: d['data'] ?? d // 兼容没有data字段的响应
+              );
+            } else {
+              wrappedData = (
+                code: -1,
+                message: '响应格式错误',
+                data: d
+              );
             }
+            
+            response.data = wrappedData;
             return handler.next(response);
           },
           onError: (DioException e, handler) async {
