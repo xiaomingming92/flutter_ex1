@@ -2,13 +2,14 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-30 23:33:39
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-08 16:51:41
+ * @LastEditTime: 2025-12-10 09:58:39
  * @FilePath      : /ex1/lib/intent_controller/auth_intent.dart
  * @Description   : Auth Intent Controller - 处理用户认证相关的意图
  */
 import 'package:get/get.dart';
 import '../apis/auth.dart';
 import '../network/token_manager.dart';
+import '../network/dio.dart';
 
 class AuthIntentController extends GetxController {
   final RxBool isLoggedIn = false.obs;
@@ -43,25 +44,22 @@ class AuthIntentController extends GetxController {
   Future<void> handleLoginIntent(String username, String passwd) async {
     try {
       final res = await AuthApi.login(username, passwd);
-      final LoginRes resData = LoginRes(
-        accessToken: res.data['accessToken'],
-        refreshToken: res.data['refreshToken'],
-        accessExpiresAt: res.data['accessExpiresAt'],
-        refreshExpiresAt: res.data['refreshExpiresAt'],
-      );
       
-      print('login response:::$resData');
-      // 使用toMap()方法将LoginRes转换为Map
-      await TokenManager.setTokens(resData);
-      
-      if (res != null) {
-        isLoggedIn.value = true;
-        Get.offAllNamed('/home');
-      } else {
-        Get.snackbar("登录失败: ", "登录响应格式错误");
+      if (res.code != 200) {
+        Get.snackbar("登录失败", res.message);
+        return;
       }
+      
+      print('登录响应数据: ${res}');
+      print('登录响应data: ${res.data}');
+      
+      // res.data已经是LoginRes类型，可以直接使用
+      await TokenManager.setTokens(res.data);
+      
+      isLoggedIn.value = true;
+      Get.offAllNamed('/home');
     } catch (e) {
-      Get.snackbar("登录失败: ", e.toString());
+      Get.snackbar("登录失败", e.toString());
     }
   }
 

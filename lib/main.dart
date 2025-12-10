@@ -18,17 +18,21 @@ void main() {
 }
 
 void setEnvFun() {
-  const flavor = String.fromEnvironment('FLAVOR',defaultValue: 'DEV');
-  switch(flavor) {
-    case 'test': {
-      Env.setEnv(Environment.test);
-      break;
-    }
-    case 'uat': 
+  const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'DEV');
+  switch (flavor) {
+    case 'test':
+      {
+        Env.setEnv(Environment.test);
+        break;
+      }
+    case 'uat':
       Env.setEnv(Environment.uat);
       break;
-    case 'prod': 
+    case 'prod':
       Env.setEnv(Environment.prod);
+      break;
+    default:
+      Env.setEnv(Environment.dev);
       break;
   }
 }

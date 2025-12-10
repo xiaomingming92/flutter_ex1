@@ -8,14 +8,13 @@
  * 
  */
 import '../network/request.dart';
-import '../network/token_manager.dart';
 
 class AuthApi {
   // /**
   //  * @description   : 登录
   //  * @return         {*}
   //  */
-  static Future login(String identifier, String passwd) async {
+  static Future<dynamic> login(String identifier, String passwd) async {
     final Map<String, String> params = {
       'identifier': identifier,
       'password': passwd,

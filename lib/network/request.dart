@@ -14,7 +14,7 @@ import 'error_handler.dart';
 final cancelToken = CancelToken();
 
 class Request {
-  static Future<Response<T>> get<T> (
+  static Future<Response<dynamic>> get (
     String path, {
       Map<String, dynamic> ? params,
     }
@@ -27,7 +27,7 @@ class Request {
     }
   }
   
-  static Future<Response<T>> post<T> (
+  static Future<Response<dynamic>> post (
     String path, {
       dynamic data,
     }
@@ -40,7 +40,7 @@ class Request {
     }
   }
 
-  static Future<Response<T>> put<T> (
+  static Future<Response<dynamic>> put (
     String path, {
       dynamic data,
     }
@@ -53,7 +53,7 @@ class Request {
     }
   }
 
-  static Future<Response<T>> delete<T> (
+  static Future<Response<dynamic>> delete (
     String path, {
       dynamic data,
     }

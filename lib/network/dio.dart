@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-08 15:29:22
+ * @LastEditTime: 2025-12-10 10:29:13
  * @FilePath      : /ex1/lib/network/dio.dart
  * @Description   : dio初始化和拦截器,jihua
  * 
@@ -15,6 +15,8 @@ import 'token_manager.dart';
 import 'error_handler.dart';
 
 // TODO getX包装一层
+
+typedef DioResponseData<T> = ({int code, String message, T data});
 
 class DioClient {
   static Dio? _dio;
@@ -33,6 +35,7 @@ class DioClient {
         }
       )
     );
+    print("baseURL:${Env.current.baseUrl}");
     dio.interceptors.addAll(
       [
         InterceptorsWrapper(
@@ -43,8 +46,12 @@ class DioClient {
             }
             return func.next(options);
           },
-          onResponse:(response, handler) => {
-
+          onResponse: (response, handler) {
+            final d = response.data;
+            if (d is Map && d.containsKey('data')) {
+              print('response.data.data ===> ${d['data']}');
+            }
+            return handler.next(response);
           },
           onError: (DioException e, handler) async {
             if(e.response?.statusCode == 401) {
