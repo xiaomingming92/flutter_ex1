@@ -38,23 +38,20 @@ class AuthIntentController extends GetxController {
       final response = await AuthApi.login(username, passwd);
       final res = response.data;
 
-      if(res == null) {
-        Get.snackbar("登录失败", "响应数据为空");
+      if(res == null || !res.isSuccess) {
+        Get.snackbar("登录失败", res?.message ?? "响应数据为空");
         return;
       }
-      // if (res.code != 200) {
-      //   Get.snackbar("登录失败", res.message);
-      //   return;
-      // }
       
-      // print('登录响应数据: $res');
-      // print('登录响应data: ${res.data}');
-      
-      // 直接使用LoginRes类型的data
-      // await TokenManager.setTokens(res);
-      
-      // isLoggedIn.value = true;
-      // Get.offAllNamed('/home');
+      // 直接使用LoginRes类型的data，已经自动转换，无需断言和属性非空判断
+      final loginData = res.data;
+      if(loginData != null) {
+        await TokenManager.setTokens(loginData);
+        isLoggedIn.value = true;
+        Get.offAllNamed('/home');
+      } else {
+        Get.snackbar("登录失败", "登录数据为空");
+      }
     } catch (e) {
       print('登录异常: $e');
       Get.snackbar("登录失败", e.toString());

@@ -16,7 +16,35 @@ import 'error_handler.dart';
 
 // TODO getX包装一层
 
-typedef DioResponseData<T> = ({int code, String message, T data});
+class DioResponseData<T> {
+  final int code;
+  final String message;
+  final T? data;
+
+  DioResponseData({
+    required this.code,
+    required this.message,
+    this.data,
+  });
+
+  /// 从 Map 创建 DioResponseData 实例
+  /// 自动处理数据转换，确保类型安全
+  factory DioResponseData.fromMap(Map<String, dynamic> map, T Function(dynamic)? fromJsonT) {
+    return DioResponseData<T>(
+      code: map['code'] as int? ?? -1,
+      message: map['message'] as String? ?? '',
+      data: map['data'] != null 
+        ? (fromJsonT != null ? fromJsonT(map['data']) : map['data'] as T?)
+        : null,
+    );
+  }
+
+  /// 检查响应是否成功
+  bool get isSuccess => code == 200;
+
+  /// 检查是否有数据
+  bool get hasData => data != null;
+}
 
 class DioClient {
   static Dio? _dio;
@@ -47,24 +75,24 @@ class DioClient {
             return func.next(options);
           },
           onResponse: (response, handler) {
-            final d = response.data;
-            DioResponseData<dynamic> wrappedData;
+            // final d = response.data;
+            // DioResponseData<dynamic> wrappedData;
             
-            if (d is Map) {
-              wrappedData = (
-                code: d['code'] as int? ?? -1,
-                message: d['message'] as String? ?? '',
-                data: d['data'] ?? d // 兼容没有data字段的响应
-              );
-            } else {
-              wrappedData = (
-                code: -1,
-                message: '响应格式错误',
-                data: d
-              );
-            }
+            // if (d is Map) {
+            //   wrappedData = (
+            //     code: d['code'] as int? ?? -1,
+            //     message: d['message'] as String? ?? '',
+            //     data: d['data'] ?? d // 兼容没有data字段的响应
+            //   );
+            // } else {
+            //   wrappedData = (
+            //     code: -1,
+            //     message: '响应格式错误',
+            //     data: d
+            //   );
+            // }
             
-            response.data = wrappedData;
+            // response.data = wrappedData;
             return handler.next(response);
           },
           onError: (DioException e, handler) async {

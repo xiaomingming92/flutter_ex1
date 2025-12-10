@@ -22,7 +22,11 @@ class AuthApi {
       'password': passwd,
     };
     print('params:::$params');
-    return await Request.post<LoginRes>('/auth/login', data: params);
+    return await Request.post<LoginRes>(
+      '/auth/login',
+      data: params,
+      fromJsonT: (json) => LoginRes.fromJson(json as Map<String, dynamic>),
+    );
   }
 
   static Future refreshToken(refreshToken) async {
@@ -56,6 +60,17 @@ class LoginRes {
     required this.refreshExpiresAt,
     this.userInfo,
   });
+  
+  /// 从 JSON Map 创建 LoginRes 实例
+  factory LoginRes.fromJson(Map<String, dynamic> json) {
+    return LoginRes(
+      accessToken: json['accessToken'] as String? ?? json['access_token'] as String? ?? '',
+      refreshToken: json['refreshToken'] as String? ?? json['refresh_token'] as String? ?? '',
+      accessExpiresAt: json['accessExpiresAt'] as int? ?? json['access_expires_at'] as int? ?? 0,
+      refreshExpiresAt: json['refreshExpiresAt'] as int? ?? json['refresh_expires_at'] as int? ?? 0,
+      userInfo: json['userInfo'] ?? json['user_info'],
+    );
+  }
   
   // 转换为标准Map的方法
   Map<String, dynamic> toMap() {
