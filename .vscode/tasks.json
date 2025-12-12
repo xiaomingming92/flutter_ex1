@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label":"launch-avd",
+            "type": "shell",
+            "command": "fvm flutter  emulator --launch sphone",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
