@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-15 14:33:44
+ * @LastEditTime: 2025-12-15 15:37:06
  * @FilePath      : /ex1/lib/network/dio.dart
  * @Description   : dio初始化和拦截器,jihua
  * 
@@ -102,6 +102,10 @@ class DioClient {
       [
         InterceptorsWrapper(
           onRequest: (options, func) async {
+            // 添加API Key到请求头
+            // options.headers['X-API-Key'] = EnvDotEnv.apiKey;
+            
+            // 添加令牌到请求头
             final token = await TokenManager.getAccessToken();
             if(token != null) {
               options.headers['Authorization'] = 'Bearer $token';

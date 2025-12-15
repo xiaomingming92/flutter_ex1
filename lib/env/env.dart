@@ -11,6 +11,7 @@ import 'env.dev.dart';
 import 'env.test.dart';
 import 'env.uat.dart';
 import 'env.prod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum Environment {
   dev,

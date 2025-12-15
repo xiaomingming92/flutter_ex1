@@ -46,3 +46,9 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+.env
+.env.local
+.env.*.local
+keystore.jks
+*/key.properties
