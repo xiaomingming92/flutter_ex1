@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-15 13:17:39
+ * @LastEditTime: 2025-12-15 14:33:44
  * @FilePath      : /ex1/lib/network/dio.dart
  * @Description   : dio初始化和拦截器,jihua
  * 
@@ -11,7 +11,7 @@
 import 'package:dio/dio.dart';
 import 'package:ex1/intent_controller/auth_intent_controller.dart';
 import 'package:get/get.dart';
-import '../config/env.dart';
+import '../env/env.dart';
 import 'token_manager.dart';
 import 'error_handler.dart';
 

@@ -8,7 +8,7 @@
  * 
  */
 
-import 'package:ex1/config/env.dart';
+import 'package:ex1/env/env.dart';
 import 'package:flutter/material.dart';
 import 'app/app.dart';
 

@@ -2,5 +2,6 @@ import 'env.dart';
 
 const uatConfig = EnvConfig(
   baseUrl: 'https://',
-  envName: 'UAT'
+  envName: 'UAT',
+  sucessCode: 200
 );

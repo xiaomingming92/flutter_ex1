@@ -2,5 +2,6 @@ import 'env.dart';
 
 const testConfig = EnvConfig(
   baseUrl: 'http://',
-  envName: 'TEST'
+  envName: 'TEST',
+  sucessCode: 200
 );

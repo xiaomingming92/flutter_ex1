@@ -2,5 +2,6 @@ import 'env.dart';
 
 const prodConfig = EnvConfig(
   baseUrl: 'https://',
-  envName: 'PROD'
+  envName: 'PROD',
+  sucessCode: 200,
 );

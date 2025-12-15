@@ -11,5 +11,6 @@ import 'env.dart';
 
 const devConfig = EnvConfig(
   baseUrl: 'http://10.0.2.2:3000/api',
-  envName: 'DEV'
+  envName: 'DEV',
+  sucessCode: 200
 );
