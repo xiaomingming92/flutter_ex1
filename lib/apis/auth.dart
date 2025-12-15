@@ -2,12 +2,11 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:37
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-10 11:35:06
+ * @LastEditTime: 2025-12-15 10:12:18
  * @FilePath     : /ex1/lib/apis/auth.dart
  * @Description   : 
  * 
  */
-import 'package:dio/dio.dart';
 import '../network/dio.dart';
 import '../network/request.dart';
 
@@ -16,16 +15,15 @@ class AuthApi {
   //  * @description   : 登录
   //  * @return         {*}
   //  */
-  static Future<Response<DioResponseData<LoginRes>>> login(String identifier, String passwd) async {
+  static Future<ResponseData<LoginRes>> login(String identifier, String passwd) async {
     final Map<String, String> params = {
       'identifier': identifier,
       'password': passwd,
     };
-    print('params:::$params');
     return await Request.post<LoginRes>(
       '/auth/login',
       data: params,
-      fromJsonT: (json) => LoginRes.fromJson(json as Map<String, dynamic>),
+      parseT: (json) => LoginRes.fromMap(json as Map<String, dynamic>), // 这里就实现项目框架级别的类型转换或者业务级别的类型转换，根据实际情况选择。是渐进式嵌入
     );
   }
 
@@ -33,6 +31,7 @@ class AuthApi {
     return Request.post(
       '/auth/refresh',
       data: {'refresh_token': refreshToken},
+      parseT: (json) => LoginRes.fromMap(json as Map<String, dynamic>),
     );
   }
 
@@ -47,6 +46,8 @@ class AuthApi {
 }
 
 class LoginRes {
+  final int code;
+  final String message;
   final String accessToken;
   final String refreshToken;
   final int accessExpiresAt;
@@ -54,6 +55,8 @@ class LoginRes {
   dynamic userInfo;
   
   LoginRes({
+    required this.code,
+    required this.message,
     required this.accessToken,
     required this.refreshToken,
     required this.accessExpiresAt,
@@ -62,8 +65,10 @@ class LoginRes {
   });
   
   /// 从 JSON Map 创建 LoginRes 实例
-  factory LoginRes.fromJson(Map<String, dynamic> json) {
+  factory LoginRes.fromMap(Map<String, dynamic> json) {
     return LoginRes(
+      code: json['code'] as int? ?? 0,
+      message: json['message'] as String? ?? '',
       accessToken: json['accessToken'] as String? ?? json['access_token'] as String? ?? '',
       refreshToken: json['refreshToken'] as String? ?? json['refresh_token'] as String? ?? '',
       accessExpiresAt: json['accessExpiresAt'] as int? ?? json['access_expires_at'] as int? ?? 0,

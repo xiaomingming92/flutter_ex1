@@ -2,14 +2,12 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:55:56
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-08 16:34:25
+ * @LastEditTime: 2025-12-15 10:13:58
  * @FilePath      : /ex1/lib/network/token_manager.dart
  * @Description   : token管理
  * 
  */
-import 'package:dio/dio.dart';
 import 'package:ex1/apis/auth.dart';
-import '../config/env.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TokenManager {
@@ -32,7 +30,7 @@ class TokenManager {
     await Future.wait([
       _storage.write(key: _accessTokenKey, value: data['accessToken']),
       _storage.write(key: _refreshTokenKey, value: data['refreshToken']),
-      _storage.write(key: 'refresh_expires_at', value: data['refreshExpiresAt'].toString()),
+      _storage.write(key: _refreshExpiresAtKey, value: data['refreshExpiresAt'].toString()),
       // _storage.write(key: 'access_expires_at', value: data['accessExpiresAt'].toString()),
     ]);
   }
@@ -42,14 +40,8 @@ class TokenManager {
     if(refreshToken == null) return false;
     try {
       final res = await AuthApi.refreshToken(refreshToken);
-      final LoginRes resData = LoginRes(
-        accessToken: res.data['accessToken'],
-        refreshToken: res.data['refreshToken'],
-        accessExpiresAt: res.data['accessExpiresAt'],
-        refreshExpiresAt: res.data['refreshExpiresAt'],
-      );
-      if(resData.accessToken != null && resData.refreshToken != null) {
-        await setTokens(resData);
+      if(res.isSuccess && res.hasData) {
+        await setTokens(res.data!);
         return true;
       }
       return false;

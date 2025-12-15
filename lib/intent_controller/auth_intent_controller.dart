@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-30 23:33:39
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-10 11:41:42
+ * @LastEditTime: 2025-12-15 10:54:30
  * @FilePath      : /ex1/lib/intent_controller/auth_intent.dart
  * @Description   : Auth Intent Controller - 处理用户认证相关的意图
  */
@@ -36,15 +36,9 @@ class AuthIntentController extends GetxController {
     try {
       // 直接获取包装后的响应数据（自动解析为DioResponseData<LoginRes>）
       final response = await AuthApi.login(username, passwd);
-      final res = response.data;
-
-      if(res == null || !res.isSuccess) {
-        Get.snackbar("登录失败", res?.message ?? "响应数据为空");
-        return;
-      }
       
       // 直接使用LoginRes类型的data，已经自动转换，无需断言和属性非空判断
-      final loginData = res.data;
+      final loginData = response.data;
       if(loginData != null) {
         await TokenManager.setTokens(loginData);
         isLoggedIn.value = true;
