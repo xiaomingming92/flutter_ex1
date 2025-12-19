@@ -1,12 +1,11 @@
 /*
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2025-10-24 10:18:45
- * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-05 13:48:00
- * @FilePath: /ex1/lib/pages/GallaryPage.dart
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-19 15:48:51
+ * @FilePath: \studioProjects\ex1\lib\pages\GallaryPage.dart
  * @Description: 瀑布流页面
  */
-import 'package:ex1/widgets/gallary_item_widget.dart';
 import 'package:ex1/widgets/gallary_item_widget2.dart';
 import 'package:flutter/material.dart';
 import '../apis/gallary.dart';
@@ -70,15 +69,15 @@ class GalleryPageState extends State<GalleryPage> {
 
       setState(() {
         if (isLoadMore) {
-          _items.addAll(newItems);
+          _items.addAll(newItems.data!.items);
           _currentPage = page;
         } else {
-          _items = newItems;
+          _items = newItems.data!.items;
           _currentPage = 1;
         }
 
         // 判断是否还有更多数据
-        _hasMore = newItems.length >= _pageSize;
+        _hasMore = newItems.data!.items.length >= _pageSize;
         _isLoading = false;
       });
     } catch (e) {

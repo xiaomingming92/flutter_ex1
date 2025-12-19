@@ -35,7 +35,7 @@ class GallaryPage1State extends State<GallaryPage1> {
   int _crossAxisCount = 2;
   double _imageAspectRatio = 1.5;
 
-  Future<void> _LoadData({bool isLoadMore = false}) async {
+  Future<void> _loadData({bool isLoadMore = false}) async {
     if (!_hasMore || !_hasMore) return;
     setState(() {
       _isLoading = true;
@@ -44,7 +44,7 @@ class GallaryPage1State extends State<GallaryPage1> {
 
     try {
       final int page = isLoadMore ? _currentPage + 1 : 1;
-      final newItems = await GallaryApi.getGallaryList(
+      final res = await GallaryApi.getGallaryList(
         page: page,
         pageSize: _pageSize,
       );
@@ -53,10 +53,10 @@ class GallaryPage1State extends State<GallaryPage1> {
       }
       setState(() {
         if (isLoadMore) {
-          _items.addAll(newItems);
+          _items.addAll(res.data!.items);
           _currentPage = page;
         } else {
-          _items = newItems;
+          _items = res.data!.items;
           _currentPage = 1;
         }
       });
@@ -71,7 +71,7 @@ class GallaryPage1State extends State<GallaryPage1> {
             content: Text('加载失败: $e'),
             action: SnackBarAction(
               label: '重试',
-              onPressed: () => _LoadData(isLoadMore: isLoadMore),
+              onPressed: () => _loadData(isLoadMore: isLoadMore),
             ),
           ),
         );
@@ -82,43 +82,54 @@ class GallaryPage1State extends State<GallaryPage1> {
       });
     }
   }
-
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+  @override
+  void dispose() {
+    _scrollerCtl.dispose();
+    super.dispose();
+  }
   void _searchHandler() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('瀑布流展示')),
-      body: Column(
-        children: [
-          // 运营banner区域, 感觉可以新增个组件,2个图片占一行,下面再来个文字描述
-          Container(
-            height: 100,
-            color: Colors.grey[300],
-            child: GallaryOperateBannerWidget(),
-          ),
-          // 搜索框区域
-          Container(
-            height: 50,
-            color: Colors.grey[300],
-            child: Row(
-              children: [
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: "搜索",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: _searchHandler,
-                  child: const Text('搜索'),
-                ),
-              ],
+      body: RefreshIndicator(
+        onRefresh: _loadData,
+        child: Column(
+          children: [
+            // 运营banner区域, 感觉可以新增个组件,2个图片占一行,下面再来个文字描述
+            Container(
+              height: 100,
+              color: Colors.grey[300],
+              child: GallaryOperateBannerWidget(),
             ),
-          ),
+            // 搜索框区域
+            // Container(
+            //   height: 50,
+            //   color: Colors.grey[300],
+            //   child: Row(
+            //   children: [
+            //     TextField(
+            //       controller: _searchController,
+            //       decoration: InputDecoration(
+            //         hintText: "搜索",
+            //         border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(8),
+            //         ),
+            //       ),
+            //     ),
+            //     const SizedBox(width: 8),
+            //     ElevatedButton(
+            //       onPressed: _searchHandler,
+            //       child: const Text('搜索'),
+            //     ),
+              // ],
+            // ),
+          // ),
           // 筛选区域
           Container(
             height: 50,
@@ -171,6 +182,7 @@ class GallaryPage1State extends State<GallaryPage1> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

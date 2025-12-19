@@ -2,8 +2,8 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 08:53:43
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-15 15:37:06
- * @FilePath      : /ex1/lib/network/dio.dart
+ * @LastEditTime: 2025-12-19 13:34:57
+ * @FilePath: \studioProjects\ex1\lib\network\dio.dart
  * @Description   : dio初始化和拦截器,jihua
  * 
  */
@@ -27,27 +27,23 @@ class ResponseData<T> {
   });
   factory ResponseData.parse(dynamic resData, T Function(dynamic)? parseT) {
     // 防止某些网关/静态文件/降级路径返回字符串
-    if(resData == Null || resData is String) {
+    if(resData == null || resData is String) {
       return ResponseData(code: -1, message: '数据格式错误', data: null);
     }
-    switch(resData.runtimeType) {
-      case const (Map<String, dynamic>): {
-        return ResponseData.fromMap(resData, parseT);
-      }
-      case const (List<dynamic>): {
-        return ResponseData.fromList(resData, parseT);
-      }
-      case const (String): {
-        return ResponseData.fromJSON(resData, parseT); 
-      }
-      default: {
-        return ResponseData<T>(
-          code: -1,
-          message: '响应格式错误',
-          data: null,
-        );
-      }
+    // 检查是否是Map类型（包括LinkedHashMap等子类）
+    if(resData is Map) {
+      return ResponseData.fromMap(resData as Map<String, dynamic>, parseT);
     }
+    // 检查是否是List类型
+    if(resData is List) {
+      return ResponseData.fromList(resData, parseT);
+    }
+    // 默认返回格式错误
+    return ResponseData<T>(
+      code: -1,
+      message: '响应格式错误',
+      data: null,
+    );
   }
   factory ResponseData.fromMap(Map<String, dynamic> map, T Function(dynamic)? parseT) {
     return ResponseData<T>(

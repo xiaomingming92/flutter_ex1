@@ -1,7 +1,16 @@
+/*
+ * @Author: Z2-WIN\xmm wujixmm@gmail.com
+ * @Date: 2025-12-06 16:21:07
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-19 11:19:35
+ * @FilePath: \studioProjects\ex1\lib\env\env.prod.dart
+ * @Description: 
+ */
 import 'env.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const prodConfig = EnvConfig(
-  baseUrl: 'https://',
-  envName: 'PROD',
-  sucessCode: 200,
+final prodConfig = EnvConfig(
+  baseUrl: dotenv.get('BASE_URL'),
+  envName: dotenv.get('ENV_NAME'),
+  sucessCode: int.parse(dotenv.get('SUCCESS_CODE')),
 );

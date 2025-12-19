@@ -2,8 +2,8 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-23 12:56:05
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-08 16:59:01
- * @FilePath      : /ex1/lib/routes/routes.dart
+ * @LastEditTime: 2025-12-19 14:58:50
+ * @FilePath: \studioProjects\ex1\lib\routes\routes.dart
  * @Description   : 路由管理
  * 
  */
@@ -14,7 +14,7 @@ import "package:flutter/material.dart";
 import "../pages/HomePage.custom.dart";
 // import "../pages/HomePage.tabcontroller.dart";
 import "../pages/FeedPage.dart";
-import "../pages/GallaryPage.dart";
+import "../pages/GallaryPage1.dart";
 import "../pages/PostPage.dart";
 import "../pages/Messages.dart";
 import "../pages/ProfilePage.dart";
@@ -26,7 +26,7 @@ class Routes {
   static const home = '/home';
   static const login = '/login';
   static const feed = '/feed';
-  static const gallery = '/gallery';
+  static const gallary = '/gallary';
   static const post = '/post/:userId'; // 这里很像navigator2.0
   static const message = '/message';
   static const profile = '/profile';
@@ -45,8 +45,8 @@ class Routes {
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
-      name: gallery,
-      page: () => const GalleryPage(),
+      name: gallary,
+      page: () => const GallaryPage1(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(

@@ -1,15 +1,15 @@
 /*
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2025-10-27 14:57:48
- * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-05 08:43:18
- * @FilePath: /ex1/lib/pages/HomePage.custom.dart
+ * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime: 2025-12-19 15:02:55
+ * @FilePath: \studioProjects\ex1\lib\pages\HomePage.custom.dart
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import 'package:flutter/material.dart';
 
 import 'FeedPage.dart';
-import "GallaryPage.dart";
+import "GallaryPage1.dart";
 import "Messages.dart";
 import "PostPage.dart";
 import 'ProfilePage.dart';
@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selTabIdx = 0;
-  final _pages = [FeedPage(), GalleryPage(), MessagePage(), ProfilePage()];
+  final _pages = [FeedPage(), GallaryPage1(), MessagePage(), ProfilePage()];
 
   void _onSelTab(int index) {
     switch (index) {

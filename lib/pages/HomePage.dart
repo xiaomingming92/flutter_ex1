@@ -8,7 +8,7 @@
  */
 import "package:flutter/material.dart";
 import 'FeedPage.dart';
-import 'GallaryPage.dart';
+import 'GallaryPage1.dart';
 import 'Messages.dart';
 import 'PostPage.dart';
 import 'ProfilePage.dart';
@@ -29,7 +29,7 @@ class HomeState extends State<HomePage> {
 
   final pages = const [
     FeedPage(),
-    GalleryPage(),
+    GallaryPage1(),
     PostPage(userId: 123),
     MessagePage(),
     ProfilePage(),

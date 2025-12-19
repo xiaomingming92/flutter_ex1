@@ -1,16 +1,8 @@
-/*
- * @Author: Z2-WIN\xmm wujixmm@gmail.com
- * @Date: 2025-12-06 16:21:07
- * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-15 14:33:59
- * @FilePath: \studioProjects\ex1\lib\env\env.dart
- * @Description: 环境配置
- */
 
-import 'env.dev.dart';
-import 'env.test.dart';
-import 'env.uat.dart';
-import 'env.prod.dart';
+import 'package:ex1/env/env.dev.dart';
+import 'package:ex1/env/env.test.dart';
+import 'package:ex1/env/env.uat.dart';
+import 'package:ex1/env/env.prod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum Environment {
@@ -24,7 +16,7 @@ class EnvConfig {
   final String baseUrl;
   final String envName;
   final int sucessCode;
-  const EnvConfig({
+  EnvConfig({
     required this.baseUrl,
     required this.envName,
     required this.sucessCode,
@@ -34,26 +26,43 @@ class EnvConfig {
 class Env {
   static late EnvConfig current;
   static void setEnv(Environment env) {
+    // 首先获取基础配置
+    EnvConfig baseConfig;
     switch(env) {
       case Environment.dev:
-        current = devConfig;
+        baseConfig = devConfig;
         break;
       case Environment.test:
-        current = testConfig;
+        baseConfig = testConfig;
         break;
       case Environment.uat:
-        current = uatConfig;
+        baseConfig = uatConfig;
         break;
       case Environment.prod:
-        current = prodConfig;
+        baseConfig = prodConfig;
         break;
     }
+    
+    // 优先从dotenv获取环境变量，如果没有则使用基础配置
+    current = EnvConfig(
+      baseUrl: dotenv.env['BASE_URL'] ?? baseConfig.baseUrl,
+      envName: dotenv.env['ENV_NAME'] ?? baseConfig.envName,
+      sucessCode: int.tryParse(dotenv.env['SUCCESS_CODE'] ?? '') ?? baseConfig.sucessCode,
+    );
   }
-}
-
-class Envv2 {
-  static late EnvConfig current;
-  static final flavor = const String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  static final baseUrl = const String.fromEnvironment('BASE_URL', defaultValue: 'https://');
   
+  // 直接从dotenv获取环境变量的快捷方法
+  static String getString(String key, {String defaultValue = ''}) {
+    return dotenv.env[key] ?? defaultValue;
+  }
+  
+  static int getInt(String key, {int defaultValue = 0}) {
+    return int.tryParse(dotenv.env[key] ?? '') ?? defaultValue;
+  }
+  
+  static bool getBool(String key, {bool defaultValue = false}) {
+    final value = dotenv.env[key];
+    if (value == null) return defaultValue;
+    return value.toLowerCase() == 'true' || value == '1';
+  }
 }

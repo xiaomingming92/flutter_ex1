@@ -2,32 +2,53 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:43
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-08 17:13:34
- * @FilePath: /ex1/lib/apis/gallary.dart
+ * @LastEditTime: 2025-12-19 15:41:33
+ * @FilePath: \studioProjects\ex1\lib\apis\gallary.dart
  * @Description   : 相册接口
  * 
  */
+import '../network/dio.dart';
 import '../network/request.dart';
 
 class GallaryApi {
   /// 获取相册列表
   /// [page] 页码，从1开始
   /// [pageSize] 每页数量，默认10
-  static Future<List<GallaryItem>> getGallaryList({
+  static Future<ResponseData<GallaryRes>> getGallaryList({
     int page = 1,
     int pageSize = 10,
   }) async {
-    final res = await Request.get(
-      '/gallery/list',
+    return await Request.get<GallaryRes>(
+      '/waterfall',
       params: {'page': page, 'pageSize': pageSize},
+      parseT: (data) => GallaryRes.fromMap(data),
     );
+    // print(res);
+    // return GallaryRes(
+    //   code: res.code,
+    //   message: res.message,
+    //   items:
+    //       res.data != null && res.data['items'] != null && res.data['items'] is List
+    //           ? (res.data['items'] as List).map((x) => GallaryItem.fromMap(x)).toList()
+    //           : []
+    // );
+  }
+}
 
-    if (res.data != null && res.data is List) {
-      return (res.data as List)
-          .map((item) => GallaryItem.fromJson(item))
-          .toList();
-    }
-    return [];
+class GallaryRes {
+  final int code;
+  final String message;
+  final List<GallaryItem> items;
+
+  GallaryRes({required this.code, required this.message, required this.items});
+  factory GallaryRes.fromMap(Map<String, dynamic> json) {
+    return GallaryRes(
+      code: json['code']?.toInt() ?? 0,
+      message: json['message']?.toString() ?? '',
+      items: json['items'] != null && json['items'] is List
+          ? (json['items'] as List).map((x) => GallaryItem.fromMap(x)).toList()
+          : [],
+    );
   }
 }
 
@@ -40,7 +61,8 @@ class GallaryItem {
   final String? title;
   final String? description;
   final String? articleId;
-  
+  final String? createdAt;
+  final String? updatedAt;
 
   GallaryItem({
     required this.id,
@@ -49,18 +71,22 @@ class GallaryItem {
     this.height,
     this.title,
     this.description,
-    required this.articleId,  
+    required this.articleId,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  factory GallaryItem.fromJson(Map<String, dynamic> json) {
+  factory GallaryItem.fromMap(Map<String, dynamic> json) {
     return GallaryItem(
       id: json['id']?.toString() ?? '',
       imageUrl: json['imageUrl'] ?? json['image_url'] ?? '',
-      width: json['width']?.toDouble(),
-      height: json['height']?.toDouble(),
+      width: json['width']?.toDouble() ?? 0.0,
+      height: json['height']?.toDouble() ?? 0.0,
       title: json['title'],
       description: json['description'],
       articleId: json['articleId']?.toString(),
+      createdAt: json['createdAt']?.toString(),
+      updatedAt: json['updatedAt']?.toString(),
     );
   }
 

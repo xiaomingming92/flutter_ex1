@@ -1,7 +1,8 @@
 import 'env.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const testConfig = EnvConfig(
-  baseUrl: 'http://',
-  envName: 'TEST',
-  sucessCode: 200
+final testConfig = EnvConfig(
+  baseUrl: dotenv.get('BASE_URL'),
+  envName: dotenv.get('ENV_NAME'),
+  sucessCode: int.parse(dotenv.get('SUCCESS_CODE')),
 );
