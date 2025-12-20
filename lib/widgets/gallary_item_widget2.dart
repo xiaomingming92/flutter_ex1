@@ -50,53 +50,45 @@ class GallaryItemWidget extends StatelessWidget {
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               ),
               color: Colors.grey[200],
             ),
             clipBehavior: Clip.antiAlias,
-            child: Stack(
-              fit: StackFit.expand,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 图片加载：由 GalleryItemSkeleton 处理骨架屏和加载过程
-                GalleryItemSkeleton(
-                  imageUrl: item.imageUrl,
-                  fit: BoxFit.contain,
+                // 图片部分：占满可用宽度
+                Expanded(
+                  child: GalleryItemSkeleton(
+                    imageUrl: item.imageUrl,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
-
-                // 标题覆盖层（可选）
-                ...(item.title != null
-                    ? [
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.black.withAlpha(6),
-                                  Colors.transparent,
-                                ],
-                              ),
-                            ),
-                            child: Text(
-                              item.title!,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                // 文字部分
+                Container(
+                  width: double.infinity,
+                  color: Colors.white, // 设置背景色
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (item.description != null) 
+                        Text(
+                          item.description!,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ]
-                    : []),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

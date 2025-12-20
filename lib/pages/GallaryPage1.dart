@@ -36,7 +36,7 @@ class GallaryPage1State extends State<GallaryPage1> {
   double _imageAspectRatio = 1.5;
 
   Future<void> _loadData({bool isLoadMore = false}) async {
-    if (!_hasMore || !_hasMore) return;
+    if (!_hasMore || _isLoading) return;
     setState(() {
       _isLoading = true;
       _hasError = false;
@@ -54,11 +54,13 @@ class GallaryPage1State extends State<GallaryPage1> {
       setState(() {
         if (isLoadMore) {
           _items.addAll(res.data!.items);
-          _currentPage = page;
+          _currentPage = res.data!.page;
         } else {
           _items = res.data!.items;
           _currentPage = 1;
         }
+        // 更新是否还有更多数据
+        _hasMore = res.data!.items.length >= _pageSize;
       });
     } catch (e) {
       if (!mounted) return;
@@ -82,16 +84,19 @@ class GallaryPage1State extends State<GallaryPage1> {
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
     _loadData();
   }
+
   @override
   void dispose() {
     _scrollerCtl.dispose();
     super.dispose();
   }
+
   void _searchHandler() {}
   @override
   Widget build(BuildContext context) {
@@ -99,6 +104,7 @@ class GallaryPage1State extends State<GallaryPage1> {
       appBar: AppBar(title: const Text('瀑布流展示')),
       body: RefreshIndicator(
         onRefresh: _loadData,
+        
         child: Column(
           children: [
             // 运营banner区域, 感觉可以新增个组件,2个图片占一行,下面再来个文字描述
@@ -127,61 +133,73 @@ class GallaryPage1State extends State<GallaryPage1> {
             //       onPressed: _searchHandler,
             //       child: const Text('搜索'),
             //     ),
-              // ],
+            // ],
             // ),
-          // ),
-          // 筛选区域
-          Container(
-            height: 50,
-            color: Colors.grey[300],
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.filter_alt),
-                        onPressed: _searchHandler,
-                      ),
-                      Text('筛选'),
-                    ],
+            // ),
+            // 筛选区域
+            Container(
+              height: 50,
+              color: Colors.grey[300],
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.filter_alt),
+                          onPressed: _searchHandler,
+                        ),
+                        Text('筛选'),
+                      ],
+                    ),
                   ),
-                ),
-                FilterWidget(
-                  field: 'time',
-                  label: '时间',
-                  sortStatus: {},
-                  onSortChanged: (field) {},
-                ),
-                FilterWidget(
-                  field: 'like',
-                  label: '点赞数',
-                  sortStatus: {},
-                  onSortChanged: (field) {},
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.refresh),
-                        onPressed: _searchHandler,
-                      ),
-                      Text('重置'),
-                    ],
+                  FilterWidget(
+                    field: 'time',
+                    label: '时间',
+                    sortStatus: {},
+                    onSortChanged: (field) {},
                   ),
+                  FilterWidget(
+                    field: 'like',
+                    label: '点赞数',
+                    sortStatus: {},
+                    onSortChanged: (field) {},
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.refresh),
+                          onPressed: _searchHandler,
+                        ),
+                        Text('重置'),
+                      ],
+                    ),
+                  ),
+                  
+                ],
+              ),
+            ),
+            // 瀑布流展示区域
+            Expanded(
+              child: WaterfallFlowSimple(
+                scrollController: _scrollerCtl,
+                items: _items,
+                itemBuilder: (context, item, index) => GallaryItemWidget(
+                  item: item,
+                  width: item.width,
+                  imageAspectRatio: item.aspectRatio,
                 ),
-              ],
+                crossAxisCount: _crossAxisCount,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                // 使用组件内置的触底加载功能
+                onLoadMore: () => _loadData(isLoadMore: true),
+                isLoading: _isLoading,
+                loadMoreThreshold: 200,
+              ),
             ),
-          ),
-          // 瀑布流展示区域
-          Expanded(
-            child: WaterfallFlowSimple(
-              items: _items,
-              itemBuilder: (context, item, index) =>
-                  GallaryItemWidget(item: item),
-            ),
-          ),
-        ],
+          ],
         ),
       ),
     );

@@ -39,8 +39,11 @@ class GallaryRes {
   final int code;
   final String message;
   final List<GallaryItem> items;
-
-  GallaryRes({required this.code, required this.message, required this.items});
+  final int total;
+  final int page;
+  final int pageSize;
+  final int totalPages;
+  GallaryRes({required this.code, required this.message, required this.items, required this.total, required this.page, required this.pageSize, required this.totalPages});
   factory GallaryRes.fromMap(Map<String, dynamic> json) {
     return GallaryRes(
       code: json['code']?.toInt() ?? 0,
@@ -48,6 +51,10 @@ class GallaryRes {
       items: json['items'] != null && json['items'] is List
           ? (json['items'] as List).map((x) => GallaryItem.fromMap(x)).toList()
           : [],
+      total: json['total']?.toInt() ?? 0,
+      page: json['page']?.toInt() ?? 0,
+      pageSize: json['pageSize']?.toInt() ?? 0,
+      totalPages: json['totalPages']?.toInt() ?? 0,
     );
   }
 }

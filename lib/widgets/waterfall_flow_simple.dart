@@ -48,7 +48,7 @@ class WaterfallFlowSimple<T> extends StatefulWidget {
     this.mainAxisSpacing = 8.0,
     this.scrollController,
     this.onLoadMore,
-    this.loadMoreThreshold = 100.0,
+    this.loadMoreThreshold = 20.0,
     this.isLoading = false,
   });
 
@@ -178,7 +178,7 @@ class _WaterfallFlowSimpleState<T> extends State<WaterfallFlowSimple<T>> {
                               widget.items.indexOf(item), // 原始列表中的索引
                             ),
                           );
-                        }).toList(),
+                        }),
                       ],
                     ),
                   ),
