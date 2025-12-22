@@ -52,3 +52,4 @@ app.*.map.json
 .env.*.local
 keystore.jks
 */key.properties
+pubspec.lock

@@ -15,7 +15,7 @@ import "../pages/HomePage.custom.dart";
 // import "../pages/HomePage.tabcontroller.dart";
 import "../pages/FeedPage.dart";
 import "../pages/GallaryPage1.dart";
-import "../pages/PostPage.dart";
+import "../pages/PostPage1.dart";
 import "../pages/Messages.dart";
 import "../pages/ProfilePage.dart";
 import 'package:get/get.dart';
@@ -52,8 +52,8 @@ class Routes {
     GetPage(
       name: post,
       page: () {
-        final userId = int.parse(Get.parameters['userId'] ?? '0');
-        return PostPage(userId: userId);
+        // final userId = Get.parameters['userId'] ?? '0';
+        return PostPage1();
       },
       middlewares: [AuthMiddleware()],
     ),

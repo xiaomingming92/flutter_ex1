@@ -30,7 +30,7 @@ class HomeState extends State<HomePage> {
   final pages = const [
     FeedPage(),
     GallaryPage1(),
-    PostPage(userId: 123),
+    PostPage(userId: '123'),
     MessagePage(),
     ProfilePage(),
   ];
