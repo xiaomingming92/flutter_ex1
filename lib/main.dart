@@ -20,11 +20,13 @@ void main() async {
   // 加载.env文件，注意顺序：越后面加载的文件优先级越高
   // 加载当前环境的.env.$flavor文件
   await dotenv.load(fileName: '.env.$flavor');
-  // 加载当前环境的.env.$flavor.local文件（优先级最高）
-  if(flavor == 'dev') {
+  // 尝试加载当前环境的.env.$flavor.local文件（优先级最高，如果存在的话）
+  try {
     await dotenv.load(fileName: '.env.$flavor.local');
+  } catch (e) {
+    // .local 文件不存在时忽略错误（这是正常的，用于本地配置覆盖）
   }
-  
+
   setEnvFun();
   runApp(const App());
 }

@@ -70,7 +70,7 @@ class ResponseData<T> {
   }
 
   /// 检查响应是否成功
-  bool get isSuccess => code == 200;
+  bool get isSuccess => code == 200 || code == 201;
 
   /// 检查是否有数据
   bool get hasData => data != null;

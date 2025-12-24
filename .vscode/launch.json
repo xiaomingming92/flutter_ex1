@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "ex1 with emulator",
             "request": "launch",
@@ -24,6 +25,41 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "ex1 (真机 test环境)",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "deviceId": "10AE7Y0G79001QG",
+            "flutterMode": "debug",
+            "args": [
+                "--dart-define=FLAVOR=test",
+                "--flavor=staging"
+            ]
+        },
+        {
+            "name": "ex1 (真机 WiFi 本地环境)",
+            "request": "launch", 
+            "type": "dart",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "deviceId": "192.168.0.209:5555",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor=dev"
+            ]
+        },
+        {
+            "name": "ex1 (真机 WiFi 服务器环境)",
+            "request": "launch",
+            "type": "dart", 
+            "program": "${workspaceFolder}/lib/main.dart",
+            "deviceId": "192.168.0.209:5555",
+            "flutterMode": "debug",
+            "args": [
+                "--dart-define=FLAVOR=test",
+                "--flavor=staging"
+            ]
         }
     ]
 }
