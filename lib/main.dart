@@ -2,10 +2,12 @@
  * @Author       : Z2-WIN\xmm wujixmm@gmail.com
  * @Date         : 2025-12-06 16:21:07
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-25 17:06:08
+ * @LastEditTime : 2025-12-25 17:42:54
  * @FilePath     : \ex1\lib\main.dart
  * @Description  : 项目入口
  */
+
+import 'dart:io';
 
 import './env/env.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +20,10 @@ void main() async {
   
   // 获取当前环境
   const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  // 加载.env文件，注意顺序：越后面加载的文件优先级越高
+  const baseUrl = String.fromEnvironment('BASE_URL', defaultValue: '10.0.2.2:3000');
   // 加载当前环境的.env.$flavor文件
-  // 尝试加载当前环境的.env.$flavor.local文件（优先级最高，如果存在的话）
   try {
-    await dotenv.load(fileName: '.env');
-    // 直接加载当前环境的.env.$flavor文件（已在pubspec.yaml中配置为assets）
-    await dotenv.load(fileName: '.env.$flavor');
-    // 尝试加载当前环境的.env.$flavor.local文件（优先级最高，如果存在的话）
-    await dotenv.load(fileName: '.env.$flavor.local');
-    // 调试输出：查看实际加载的环境变量
+    await dotenv.load(fileName: '.env.$flavor', mergeWith: dotenv.env);
     print('Loaded environment variables:');
     print('DEV_DEBUG_SPLASH: ${dotenv.env['DEV_DEBUG_SPLASH']}');
   } catch (e) {

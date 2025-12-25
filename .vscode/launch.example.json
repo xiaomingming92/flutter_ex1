@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
 
@@ -15,7 +12,8 @@
             "flutterMode": "debug",
             "args": [
                 "--dart-define=FLAVOR=dev",
-                "--flavor=dev"
+                "--flavor=dev",
+                "--dart-define=BASE_URL=http://10.0.2.2:3000/ex1/api"
             ]
         },
         {
@@ -39,6 +37,7 @@
             "flutterMode": "debug",
             "args": [
                 "--dart-define=FLAVOR=test",
+                "--dart-define=BASE_URL=http://10.0.2.2:3000/ex1/api",
                 "--flavor=staging"
             ]
         },
@@ -50,7 +49,9 @@
             "deviceId": "192.168.0.209:5555",
             "flutterMode": "debug",
             "args": [
-                "--flavor=dev"
+                "--flavor=dev",
+                 "--dart-define=FLAVOR=test",
+                "--dart-define=BASE_URL=http://10.0.2.2:3000/ex1/api"
             ]
         },
         {
@@ -62,7 +63,8 @@
             "flutterMode": "debug",
             "args": [
                 "--dart-define=FLAVOR=test",
-                "--flavor=staging"
+                "--flavor=staging",
+                "--dart-define=BASE_URL=http://10.0.2.2:3000/ex1/api"
             ]
         }
     ]
