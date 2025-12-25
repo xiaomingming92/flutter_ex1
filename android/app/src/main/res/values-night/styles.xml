@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is on -->
-    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
-        <!-- Show a splash screen on the activity. Automatically removed when
-             the Flutter engine draws its first frame -->
-        <item name="android:windowBackground">@drawable/launch_background</item>
+    <!-- 深色模式下的启动主题：完全透明 + 适配API36 -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <!-- 彻底清空原生启动背景 -->
+        <item name="android:windowBackground">@null</item>
+        <!-- 强制窗口透明（API36 核心） -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 禁用系统默认动画，避免闪烁 -->
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
-    <!-- Theme applied to the Android Window as soon as the process has started.
-         This theme determines the color of the Android Window while your
-         Flutter UI initializes, as well as behind your Flutter UI while its
-         running.
 
-         This Theme is only used starting with V2 of Flutter's Android embedding. -->
+    <!-- 深色模式下的运行时主题：透明背景 + 避免锁屏解锁暴露黑色 -->
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
-        <item name="android:windowBackground">?android:colorBackground</item>
+        <!-- 显式设为透明，替代默认的黑色背景 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 兼容API36：避免Flutter UI底层透出系统黑色 -->
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 </resources>
