@@ -16,10 +16,12 @@ class EnvConfig {
   final String baseUrl;
   final String envName;
   final int sucessCode;
+  final String devDebugSplash;
   EnvConfig({
     required this.baseUrl,
     required this.envName,
     required this.sucessCode,
+    required this.devDebugSplash,
   });
 }
 
@@ -48,6 +50,7 @@ class Env {
       baseUrl: dotenv.env['BASE_URL'] ?? baseConfig.baseUrl,
       envName: dotenv.env['ENV_NAME'] ?? baseConfig.envName,
       sucessCode: int.tryParse(dotenv.env['SUCCESS_CODE'] ?? '') ?? baseConfig.sucessCode,
+      devDebugSplash: dotenv.env['DEV_DEBUG_SPLASH'] ?? baseConfig.devDebugSplash,
     );
   }
   

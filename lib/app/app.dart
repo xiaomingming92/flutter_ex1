@@ -3,8 +3,8 @@
  * @Date          : 2025-10-23 12:56:05
  * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
  * @LastEditTime: 2025-12-15 14:38:02
- * @FilePath      : /ex1/lib/app/app.dart
- * @Description   : 
+ * @FilePath     : \ex1\lib\app\app.dart
+ * @Description   : 应用入口
  * 
  */
 import "package:flutter/material.dart";
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       title: "flutter_ex1",
       // routes: Routes.routes,
-      initialRoute: Routes.home,
+      initialRoute: Routes.splash,
       getPages: Routes.routes,
       debugShowCheckedModeBanner: false,
       theme: ThemeConfig.light,

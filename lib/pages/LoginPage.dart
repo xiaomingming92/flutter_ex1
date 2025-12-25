@@ -1,9 +1,9 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 15:24:07
- * @LastEditors  : wujixmm wujixmm@gmail.com
- * @LastEditTime : 2025-11-13 14:12:49
- * @FilePath     : /ex1/lib/pages/LoginPage.dart
+ * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime : 2025-12-25 14:16:42
+ * @FilePath     : \ex1\lib\pages\LoginPage.dart
  * @Description   : 登录页
  * 
  */
@@ -23,16 +23,23 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authIntentController = Get.put(AuthIntentController());
+    final authIntentController = Get.find<AuthIntentController>();
     final usernameController = TextEditingController();
     final passwordController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(title: const Text("登录")),
       body: Padding(
         padding: const EdgeInsets.all(14.0),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('欢迎来到', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                Text('ex1', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Colors.blue),),
+                
+              ],
+            ),
             TextField(
               controller: usernameController,
               decoration: const InputDecoration(labelText: "用户名"),

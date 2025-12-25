@@ -14,29 +14,33 @@ import "package:flutter/material.dart";
 import "../pages/HomePage.custom.dart";
 // import "../pages/HomePage.tabcontroller.dart";
 import "../pages/FeedPage.dart";
-import "../pages/GallaryPage1.dart";
+import "../pages/GalleryPage1.dart";
 import "../pages/PostPage1.dart";
 import "../pages/Messages.dart";
 import "../pages/ProfilePage.dart";
 import 'package:get/get.dart';
 import '../pages/LoginPage.dart';
+import '../pages/SplashPage.dart';
 import '../intent_controller/auth_intent_controller.dart';
 
 class Routes {
   static const home = '/home';
   static const login = '/login';
   static const feed = '/feed';
-  static const gallary = '/gallary';
+  static const gallery = '/gallery';
   static const post = '/post/:userId'; // 这里很像navigator2.0
   static const message = '/message';
   static const profile = '/profile';
+  static const splash = '/splash';
 
   static final List<GetPage> routes = [
+    GetPage(name: splash, page: () => const SplashPage()),
     GetPage(name: login, page: () => const LoginPage()),
     GetPage(
       name: home,
       page: () => const HomePage(),
       // page: () => const HomePageTabController(),
+      // middlewares: [AuthMiddleware()],
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
@@ -45,8 +49,8 @@ class Routes {
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
-      name: gallary,
-      page: () => const GallaryPage1(),
+      name: gallery,
+      page: () => const GalleryPage1(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
@@ -70,14 +74,21 @@ class Routes {
   ];
 }
 
-// 已移除 AuthMiddleware 中间件
+/**
+ * @description  : 认证中间件，用于判断用户是否登录
+ * @return        {*}
+ */
 class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    final AuthIntentController authIntentController =
-        Get.find<AuthIntentController>();
-    return authIntentController.getLoginStatus()
-        ? null
-        : RouteSettings(name: Routes.login);
+    // 只有在 AuthIntentController 已经初始化的情况下才进行检查
+    if (Get.isRegistered<AuthIntentController>()) {
+      final AuthIntentController authIntentController = Get.find<AuthIntentController>();
+      return authIntentController.getLoginStatus()
+          ? null
+          : RouteSettings(name: Routes.login);
+    }
+    // 未初始化时不进行重定向检查
+    return null;
   }
 }

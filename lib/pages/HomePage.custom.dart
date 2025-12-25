@@ -2,14 +2,14 @@
  * @Author       : Z2-WIN\xmm wujixmm@gmail.com
  * @Date         : 2025-12-06 16:21:07
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-22 09:07:28
+ * @LastEditTime : 2025-12-25 09:15:15
  * @FilePath     : \ex1\lib\pages\HomePage.custom.dart
  * @Description  : 首页
  */
 import 'package:flutter/material.dart';
 
 import 'FeedPage.dart';
-import "GallaryPage1.dart";
+import "GalleryPage1.dart";
 import "Messages.dart";
 import "PostPage1.dart";
 import 'ProfilePage.dart';
@@ -87,7 +87,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selTabIdx = 0;
-  final _pages = [FeedPage(), GallaryPage1(), MessagePage(), ProfilePage()];
+  final _pages = [FeedPage(), GalleryPage1(), MessagePage(), ProfilePage()];
 
   void _onSelTab(int index) {
     switch (index) {

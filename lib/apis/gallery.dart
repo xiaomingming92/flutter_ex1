@@ -10,46 +10,46 @@
 import '../network/dio.dart';
 import '../network/request.dart';
 
-class GallaryApi {
+class GalleryApi {
   /// 获取相册列表
   /// [page] 页码，从1开始
   /// [pageSize] 每页数量，默认10
-  static Future<ResponseData<GallaryRes>> getGallaryList({
+  static Future<ResponseData<GalleryRes>> getGalleryList({
     int page = 1,
     int pageSize = 10,
   }) async {
-    return await Request.get<GallaryRes>(
+    return await Request.get<GalleryRes>(
       '/waterfall',
       params: {'page': page, 'pageSize': pageSize},
-      parseT: (data) => GallaryRes.fromMap(data),
+      parseT: (data) => GalleryRes.fromMap(data),
     );
     // print(res);
-    // return GallaryRes(
+    // return GalleryRes(
     //   code: res.code,
     //   message: res.message,
     //   items:
     //       res.data != null && res.data['items'] != null && res.data['items'] is List
-    //           ? (res.data['items'] as List).map((x) => GallaryItem.fromMap(x)).toList()
+    //           ? (res.data['items'] as List).map((x) => GalleryItem.fromMap(x)).toList()
     //           : []
     // );
   }
 }
 
-class GallaryRes {
+class GalleryRes {
   final int code;
   final String message;
-  final List<GallaryItem> items;
+  final List<GalleryItem> items;
   final int total;
   final int page;
   final int pageSize;
   final int totalPages;
-  GallaryRes({required this.code, required this.message, required this.items, required this.total, required this.page, required this.pageSize, required this.totalPages});
-  factory GallaryRes.fromMap(Map<String, dynamic> json) {
-    return GallaryRes(
+  GalleryRes({required this.code, required this.message, required this.items, required this.total, required this.page, required this.pageSize, required this.totalPages});
+  factory GalleryRes.fromMap(Map<String, dynamic> json) {
+    return GalleryRes(
       code: json['code']?.toInt() ?? 0,
       message: json['message']?.toString() ?? '',
       items: json['items'] != null && json['items'] is List
-          ? (json['items'] as List).map((x) => GallaryItem.fromMap(x)).toList()
+          ? (json['items'] as List).map((x) => GalleryItem.fromMap(x)).toList()
           : [],
       total: json['total']?.toInt() ?? 0,
       page: json['page']?.toInt() ?? 0,
@@ -60,7 +60,7 @@ class GallaryRes {
 }
 
 /// 相册数据模型
-class GallaryItem {
+class GalleryItem {
   final String id;
   final String imageUrl;
   final double? width;
@@ -71,7 +71,7 @@ class GallaryItem {
   final String? createdAt;
   final String? updatedAt;
 
-  GallaryItem({
+  GalleryItem({
     required this.id,
     required this.imageUrl,
     this.width,
@@ -83,8 +83,8 @@ class GallaryItem {
     this.updatedAt,
   });
 
-  factory GallaryItem.fromMap(Map<String, dynamic> json) {
-    return GallaryItem(
+  factory GalleryItem.fromMap(Map<String, dynamic> json) {
+    return GalleryItem(
       id: json['id']?.toString() ?? '',
       imageUrl: json['imageUrl'] ?? json['image_url'] ?? '',
       width: json['width']?.toDouble() ?? 0.0,

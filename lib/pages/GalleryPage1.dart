@@ -1,18 +1,18 @@
-import 'package:ex1/apis/gallary.dart';
+import 'package:ex1/apis/gallery.dart';
 import 'package:ex1/widgets/filter_widget.dart';
-import 'package:ex1/widgets/gallary_item_widget2.dart';
+import 'package:ex1/widgets/gallery_item_widget2.dart';
 import 'package:ex1/widgets/waterfall_flow_simple.dart';
 import 'package:flutter/material.dart';
-import "package:ex1/widgets/gallary_operate_banner.dart";
+import "package:ex1/widgets/gallery_operate_banner.dart";
 
-class GallaryPage1 extends StatefulWidget {
-  const GallaryPage1({super.key});
+class GalleryPage1 extends StatefulWidget {
+  const GalleryPage1({super.key});
 
   @override
-  State<GallaryPage1> createState() => GallaryPage1State();
+  State<GalleryPage1> createState() => GalleryPage1State();
 }
 
-class GallaryPage1State extends State<GallaryPage1> {
+class GalleryPage1State extends State<GalleryPage1> {
   // 这个页面功能:
   // 1. 瀑布流展示,那就是要
   // 1.1 滚动控制
@@ -27,7 +27,7 @@ class GallaryPage1State extends State<GallaryPage1> {
   // 2.2 筛选区域
   // 2.3 运营banner
   List activityData = [];
-  List<GallaryItem> _items = [];
+  List<GalleryItem> _items = [];
 
   static const int _pageSize = 10;
   bool _hasMore = true;
@@ -44,7 +44,7 @@ class GallaryPage1State extends State<GallaryPage1> {
 
     try {
       final int page = isLoadMore ? _currentPage + 1 : 1;
-      final res = await GallaryApi.getGallaryList(
+      final res = await GalleryApi.getGalleryList(
         page: page,
         pageSize: _pageSize,
       );
@@ -111,7 +111,7 @@ class GallaryPage1State extends State<GallaryPage1> {
             Container(
               height: 100,
               color: Colors.grey[300],
-              child: GallaryOperateBannerWidget(),
+              child: GalleryOperateBannerWidget(),
             ),
             // 搜索框区域
             // Container(
@@ -185,7 +185,7 @@ class GallaryPage1State extends State<GallaryPage1> {
               child: WaterfallFlowSimple(
                 scrollController: _scrollerCtl,
                 items: _items,
-                itemBuilder: (context, item, index) => GallaryItemWidget(
+                itemBuilder: (context, item, index) => GalleryItemWidget(
                   item: item,
                   width: item.width,
                   imageAspectRatio: item.aspectRatio,

@@ -1,12 +1,12 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-12-23 17:06:25
- * @FilePath      : /ex1/lib/network/user_manager.dart
+ * @FilePath     : \ex1\lib\network\user_manager.dart
  * @Description   : 用户详情管理 - 负责用户信息缓存
  */
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../apis/user.dart';
+// import '../apis/user.dart';
 
 class UserManager {
   static const String _userInfoKey = 'userInfo';

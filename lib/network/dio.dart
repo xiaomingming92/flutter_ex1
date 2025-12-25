@@ -121,7 +121,7 @@ class DioClient {
                 final res = await dio.fetch(retryReq);
                 return handler.resolve(res);
               } else {
-                final authIntentController = Get.put(AuthIntentController());
+                final authIntentController = Get.find<AuthIntentController>();
                 authIntentController.handleLogoutIntent();
                 return;
               }

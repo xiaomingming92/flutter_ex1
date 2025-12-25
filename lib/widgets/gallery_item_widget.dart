@@ -8,10 +8,10 @@
  * 
  */
 import 'package:flutter/material.dart';
-import '../apis/gallary.dart';
+import '../apis/gallery.dart';
 
 class GalleryItemWidget extends StatelessWidget {
-  final GallaryItem item;
+  final GalleryItem item;
   final double? width;
   final double imageAspectRatio;
 

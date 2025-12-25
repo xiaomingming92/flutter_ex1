@@ -12,7 +12,11 @@
             "program": "${workspaceFolder}/lib/main.dart",
             "deviceId": "emulator-5554",
             "preLaunchTask":"launch-avd",
-            "flutterMode": "debug"
+            "flutterMode": "debug",
+            "args": [
+                "--dart-define=FLAVOR=dev",
+                "--flavor=dev"
+            ]
         },
         {
             "name": "ex1 (profile mode)",

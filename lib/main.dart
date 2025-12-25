@@ -1,11 +1,12 @@
 /*
- * @Author: Z2-WIN\xmm wujixmm@gmail.com
- * @Date: 2025-12-06 16:21:07
- * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-19 11:02:06
- * @FilePath: \studioProjects\ex1\lib\main.dart
- * @Description: 主入口文件
+ * @Author       : Z2-WIN\xmm wujixmm@gmail.com
+ * @Date         : 2025-12-06 16:21:07
+ * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime : 2025-12-25 17:06:08
+ * @FilePath     : \ex1\lib\main.dart
+ * @Description  : 项目入口
  */
+
 import './env/env.dart';
 import 'package:flutter/material.dart';
 import 'app/app.dart';
@@ -19,12 +20,19 @@ void main() async {
   const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   // 加载.env文件，注意顺序：越后面加载的文件优先级越高
   // 加载当前环境的.env.$flavor文件
-  await dotenv.load(fileName: '.env.$flavor');
   // 尝试加载当前环境的.env.$flavor.local文件（优先级最高，如果存在的话）
   try {
+    await dotenv.load(fileName: '.env');
+    // 直接加载当前环境的.env.$flavor文件（已在pubspec.yaml中配置为assets）
+    await dotenv.load(fileName: '.env.$flavor');
+    // 尝试加载当前环境的.env.$flavor.local文件（优先级最高，如果存在的话）
     await dotenv.load(fileName: '.env.$flavor.local');
+    // 调试输出：查看实际加载的环境变量
+    print('Loaded environment variables:');
+    print('DEV_DEBUG_SPLASH: ${dotenv.env['DEV_DEBUG_SPLASH']}');
   } catch (e) {
     // .local 文件不存在时忽略错误（这是正常的，用于本地配置覆盖）
+    print('Error loading .env files: $e');
   }
 
   setEnvFun();

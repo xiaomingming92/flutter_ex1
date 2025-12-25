@@ -8,8 +8,8 @@
  */
 import 'package:flutter/material.dart';
 
-class GallaryOperateBannerWidget extends StatelessWidget {
-  const GallaryOperateBannerWidget({super.key});
+class GalleryOperateBannerWidget extends StatelessWidget {
+  const GalleryOperateBannerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,6 +9,6 @@
  */
 export './auth.dart';
 export 'user.dart';
-export './gallary.dart';
+export 'gallery.dart';
 export './goods.dart';
 export './article.dart';

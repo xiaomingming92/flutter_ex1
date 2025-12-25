@@ -1,26 +1,26 @@
 /*
- * @Author: xiaomingming wujixmm@gmail.com
- * @Date: 2025-12-04 08:53:23
- * @LastEditors: xiaomingming wujixmm@gmail.com
- * @LastEditTime: 2025-12-05 13:22:51
- * @FilePath: /ex1/lib/widgets/gallary_item_widget2.dart
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : Z2-WIN\xmm wujixmm@gmail.com
+ * @Date         : 2025-12-06 16:21:07
+ * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime : 2025-12-25 09:16:40
+ * @FilePath     : \ex1\lib\widgets\gallery_item_widget2.dart
+ * @Description  : 
  */
 import 'package:flutter/material.dart';
 
-import '../apis/gallary.dart';
-import 'gallary_item_skeleton.dart';
+import '../apis/gallery.dart';
+import 'gallery_item_skeleton.dart';
 
-class GallaryItemWidget extends StatelessWidget {
+class GalleryItemWidget extends StatelessWidget {
   // 单个瀑布流内部元素
-  final GallaryItem item;
+  final GalleryItem item;
 
   // 内部元素宽度
   final double? width;
   // 图片宽高比
   final double imageAspectRatio;
 
-  const GallaryItemWidget({
+  const GalleryItemWidget({
     super.key,
     required this.item,
     this.width,
