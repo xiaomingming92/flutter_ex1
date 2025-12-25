@@ -2,7 +2,7 @@
  * @Author       : Z2-WIN\xmm wujixmm@gmail.com
  * @Date         : 2025-12-25 09:39:27
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-25 16:42:14
+ * @LastEditTime : 2025-12-25 18:00:09
  * @FilePath     : \ex1\lib\intent_controller\splash_intent_controller.dart
  * @Description  : 处理启动页意图
  */
@@ -142,13 +142,13 @@ class SplashIntentController extends GetxController {
   
   // 添加手动跳转方法供调试使用
   void manualNavigate() {
-    _navigateToTarget();
+    _navigateToTarget(manualNavigate: true);
   }
   
-  void _navigateToTarget() {
+  void _navigateToTarget({bool manualNavigate = false}) {
     // 检查是否开启调试模式
     final devDebugSplash = Env.current.devDebugSplash;
-    if (devDebugSplash == 'true') {
+    if (devDebugSplash == 'true' && !manualNavigate) {
       // 调试模式：不自动跳转
       canNavigate.value = false;
       return;

@@ -2,7 +2,7 @@
  * @Author       : Z2-WIN\xmm wujixmm@gmail.com
  * @Date         : 2025-12-06 16:21:07
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-25 16:48:36
+ * @LastEditTime : 2025-12-25 17:55:09
  * @FilePath     : \ex1\lib\env\env.uat.dart
  * @Description  : uat
  */
@@ -13,7 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // 延迟初始化配置，避免在模块加载时 dotenv 还未加载
 EnvConfig get uatConfig {
   return EnvConfig(
-    baseUrl: dotenv.env['BASE_URL'] ?? 'http://10.0.2.2:3000/ex1/api',
+    baseUrl: String.fromEnvironment("BASE_URL") ?? 'http://10.0.2.2:3000/ex1/api',
     envName: dotenv.env['ENV_NAME'] ?? 'UAT',
     sucessCode: int.tryParse(dotenv.env['SUCCESS_CODE'] ?? '200') ?? 200,
     devDebugSplash: dotenv.env['DEV_DEBUG_SPLASH'] ?? 'false',

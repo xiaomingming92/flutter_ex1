@@ -2,7 +2,7 @@
  * @Author       : Z2-WIN\xmm wujixmm@gmail.com
  * @Date         : 2025-12-06 16:21:07
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-25 17:42:54
+ * @LastEditTime : 2025-12-25 17:58:07
  * @FilePath     : \ex1\lib\main.dart
  * @Description  : 项目入口
  */
@@ -19,11 +19,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // 获取当前环境
-  const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  const baseUrl = String.fromEnvironment('BASE_URL', defaultValue: '10.0.2.2:3000');
+  const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev'); 
   // 加载当前环境的.env.$flavor文件
   try {
-    await dotenv.load(fileName: '.env.$flavor', mergeWith: dotenv.env);
+    await dotenv.load(fileName: '.env.$flavor');
     print('Loaded environment variables:');
     print('DEV_DEBUG_SPLASH: ${dotenv.env['DEV_DEBUG_SPLASH']}');
   } catch (e) {
