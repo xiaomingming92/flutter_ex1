@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-30 23:33:39
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-25 16:28:06
+ * @LastEditTime : 2025-12-26 16:26:25
  * @FilePath     : \ex1\lib\intent_controller\auth_intent_controller.dart
  * @Description   : Auth Intent Controller - 处理用户认证相关的意图
  */
@@ -137,10 +137,9 @@ class AuthIntentController extends GetxController {
         final userInfo = await UserApi.getUserInfo();
         if (userInfo.isNotEmpty) {
           await UserManager.setUserInfo(userInfo);
-
         }
       } catch (e) {
-
+        // 获取用户信息失败，不影响登录状态检查
       }
     }
     
@@ -169,7 +168,6 @@ class AuthIntentController extends GetxController {
             }
           } catch (e) {
             // 即使获取用户信息失败，也不影响登录流程
-
           }
         }
 
@@ -193,5 +191,48 @@ class AuthIntentController extends GetxController {
 
   bool getLoginStatus() {
     return isLoggedIn.value;
+  }
+
+  Future<void> handleSendCodeIntent(String phone) async {
+    try {
+      final response = await AuthApi.sendCode(phone);
+      if (response.data != null) {
+        Get.snackbar("成功", "验证码已发送");
+      } else {
+        throw Exception("发送验证码失败");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> handleSmsLoginIntent(String phone, String code) async {
+    try {
+      final response = await AuthApi.smsLogin(phone, code);
+      final loginData = response.data;
+      if (loginData != null) {
+        await TokenManager.setTokens(loginData);
+
+        await UserManager.setUserInfoFromLogin(loginData.userInfo);
+
+        if (!UserManager.hasUserInfo()) {
+          try {
+            final userInfo = await UserApi.getUserInfo();
+            if (userInfo.isNotEmpty) {
+              await UserManager.setUserInfo(userInfo);
+            }
+          } catch (e) {
+            // 获取用户信息失败，但不影响登录流程
+          }
+        }
+
+        isLoggedIn.value = true;
+        Get.offAllNamed('/home');
+      } else {
+        Get.snackbar("登录失败", "登录数据为空");
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 }

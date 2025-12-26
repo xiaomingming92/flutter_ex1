@@ -1,9 +1,9 @@
 /*
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:37
- * @LastEditors: Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime: 2025-12-15 10:12:18
- * @FilePath     : /ex1/lib/apis/auth.dart
+ * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
+ * @LastEditTime : 2025-12-26 17:02:35
+ * @FilePath     : \ex1\lib\apis\auth.dart
  * @Description   : 
  * 
  */
@@ -41,6 +41,26 @@ class AuthApi {
   static Future checkToken() async {
     return await Request.get(
       '/auth/check-token',
+    );
+  }
+
+  static Future<ResponseData<dynamic>> sendCode(String phone) async {
+    return await Request.post<dynamic>(
+      '/auth/send-code',
+      data: {'phone': phone},
+      parseT: (json) => json,
+    );
+  }
+
+
+  static Future<ResponseData<LoginRes>> smsLogin(String phone, String code) async {
+    return await Request.post<LoginRes>(
+      '/auth/sms-login',
+      data: {
+        'phone': phone,
+        'code': code,
+      },
+      parseT: (json) => LoginRes.fromMap(json as Map<String, dynamic>),
     );
   }
 }

@@ -2,7 +2,7 @@
  * @Author       : Z2-WIN\xmm wujixmm@gmail.com
  * @Date         : 2025-12-06 16:21:07
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-25 09:15:15
+ * @LastEditTime : 2025-12-26 15:14:06
  * @FilePath     : \ex1\lib\pages\HomePage.custom.dart
  * @Description  : 首页
  */
@@ -12,7 +12,8 @@ import 'FeedPage.dart';
 import "GalleryPage1.dart";
 import "Messages.dart";
 import "PostPage1.dart";
-import 'ProfilePage.dart';
+import 'PersonalCenterPage.dart';
+import 'MediaPlayPage.dart';
 
 // 自定义底部导航栏边框绘制器，实现闲鱼式的边框效果
 class BottomNavBarBorderPainter extends CustomPainter {
@@ -87,7 +88,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selTabIdx = 0;
-  final _pages = [FeedPage(), GalleryPage1(), MessagePage(), ProfilePage()];
+  final _pages = [FeedPage(), GalleryPage1(), MediaPlayPage(), PersonalCenterPage()];
 
   void _onSelTab(int index) {
     switch (index) {
@@ -133,7 +134,7 @@ class HomePageState extends State<HomePage> {
                     Expanded(child: _tabItem(Icons.home, "首页", 0)),
                     Expanded(child: _tabItem(Icons.photo_library, "相册", 1)),
                     Expanded(child: Center(child: SizedBox(height: 50))),
-                    Expanded(child: _tabItem(Icons.message, "消息", 2)),
+                    Expanded(child: _tabItem(Icons.play_arrow, "媒体", 2)),
                     Expanded(child: _tabItem(Icons.person, "我的", 3)),
                   ],
                 ),
