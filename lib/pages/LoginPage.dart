@@ -2,23 +2,19 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 15:24:07
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-26 16:56:37
+ * @LastEditTime : 2026-01-05 14:00:33
  * @FilePath     : \ex1\lib\pages\LoginPage.dart
  * @Description   : 登录页
  * 
  */
 
+// import 'package:ex1/network/user_manager.dart';
 import 'package:flutter/material.dart';
-import '../apis/index.dart';
 import 'package:get/get.dart';
 import '../intent_controller/auth_intent_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
-  static Future doLogin() async {
-    await UserApi.getUserInfo();
-  }
 
   @override
   State<LoginPage> createState() => _LoginPageState();

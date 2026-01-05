@@ -33,8 +33,8 @@ class _AdWidgetState extends State<AdWidget> {
           child: Obx(() {
             return ElevatedButton(
               onPressed: controller.adCountdown.value > 0 
-                ? null 
-                : controller.skipAd,
+                ? controller.skipAd 
+                : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: controller.adCountdown.value > 0 
                   ? Colors.grey 

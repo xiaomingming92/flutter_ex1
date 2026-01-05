@@ -45,7 +45,7 @@ class PersonalCenterPageState extends State<PersonalCenterPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // 头像
-                  Container(
+                  Obx(() => Container(
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
@@ -70,7 +70,7 @@ class PersonalCenterPageState extends State<PersonalCenterPage> {
                             ),
                           )
                         : null,
-                  ),
+                  )),
                   const SizedBox(width: 20),
                   // 用户信息 + 统计数据
                   Expanded(
@@ -78,30 +78,30 @@ class PersonalCenterPageState extends State<PersonalCenterPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          _controller.currentUser?.name ?? _controller.currentUser?.username ?? '未知用户',
+                        Obx(() => Text(
+                          _controller.currentUser?.username ?? '未知用户',
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        )),
                         const SizedBox(height: 8),
-                        Text(
+                        Obx(() => Text(
                           _controller.currentUser?.maskedPhone ?? '未绑定手机',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
                           ),
-                        ),
+                        )),
                         const SizedBox(height: 12),
                         // 统计数据
                         Row(
                           children: [
-                            _buildStatItem('帖子', _controller.currentUser?.postCount ?? 0),
+                            Obx(() => _buildStatItem('帖子', _controller.currentUser?.postCount ?? 0)),
                             const SizedBox(width: 24),
-                            _buildStatItem('关注', _controller.currentUser?.followingCount ?? 0),
+                            Obx(() => _buildStatItem('关注', _controller.currentUser?.followingCount ?? 0)),
                             const SizedBox(width: 24),
-                            _buildStatItem('粉丝', _controller.currentUser?.followerCount ?? 0),
+                            Obx(() => _buildStatItem('粉丝', _controller.currentUser?.followerCount ?? 0)),
                           ],
                         ),
                       ],

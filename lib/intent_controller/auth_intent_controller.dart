@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-30 23:33:39
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-26 16:26:25
+ * @LastEditTime : 2026-01-05 16:48:27
  * @FilePath     : \ex1\lib\intent_controller\auth_intent_controller.dart
  * @Description   : Auth Intent Controller - 处理用户认证相关的意图
  */
@@ -129,18 +129,18 @@ class AuthIntentController extends GetxController {
     
     isLoggedIn.value = isValid;
     isColdStart.value = false;
-
+    // 此处放弃副作用
     // 如果token有效，尝试恢复用户信息缓存
-    if (isValid && !UserManager.hasUserInfo()) {
-
-      try {
-        final userInfo = await UserApi.getUserInfo();
-        if (userInfo.isNotEmpty) {
-          await UserManager.setUserInfo(userInfo);
-        }
-      } catch (e) {
-        // 获取用户信息失败，不影响登录状态检查
-      }
+    if (isValid && !UserManager.hasUserInfo() && UserManager.currentUser?.id != null) {
+      // try {
+      //   final userInfo = await UserApi.getUserInfo();
+      //   final userInfoData = userInfo.data?.data;
+      //  if (userInfoData != null) {
+      //     await UserManager.setUserInfo(userInfoData);
+      //   }
+      // } catch (e) {
+      //   // 获取用户信息失败，不影响登录状态检查
+      // }
     }
     
 
@@ -157,14 +157,15 @@ class AuthIntentController extends GetxController {
         await TokenManager.setTokens(loginData);
 
         // 优先从登录响应中获取用户信息
-        await UserManager.setUserInfoFromLogin(loginData.userInfo);
+        await UserManager.setUserKeyInfoFromLogin(loginData.userKeyInfo);
 
         // 如果登录响应中没有用户信息，则调用API获取
         if (!UserManager.hasUserInfo()) {
           try {
-            final userInfo = await UserApi.getUserInfo();
-            if (userInfo.isNotEmpty) {
-              await UserManager.setUserInfo(userInfo);
+            final userInfo = await UserApi.getUserInfoMap();
+            final userInfoData = userInfo.data;
+            if (userInfoData != null) {
+              await UserManager.setUserInfo(userInfoData);
             }
           } catch (e) {
             // 即使获取用户信息失败，也不影响登录流程
@@ -213,13 +214,14 @@ class AuthIntentController extends GetxController {
       if (loginData != null) {
         await TokenManager.setTokens(loginData);
 
-        await UserManager.setUserInfoFromLogin(loginData.userInfo);
+        await UserManager.setUserKeyInfoFromLogin(loginData.userKeyInfo);
 
         if (!UserManager.hasUserInfo()) {
           try {
-            final userInfo = await UserApi.getUserInfo();
-            if (userInfo.isNotEmpty) {
-              await UserManager.setUserInfo(userInfo);
+            final userInfo = await UserApi.getUserInfoMap();
+            final userInfoData = userInfo.data;
+            if (userInfoData != null) {
+              await UserManager.setUserInfo(userInfoData);
             }
           } catch (e) {
             // 获取用户信息失败，但不影响登录流程

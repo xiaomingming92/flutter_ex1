@@ -24,7 +24,7 @@ class SplashIntentController extends GetxController {
   DateTime? _adStartTime;
   DateTime? _adEndTime;
   static const int _adDurationSeconds = 5;
-  
+  final RxBool _isSkiped = false.obs;
   @override
   void onInit() {
     super.onInit(); 
@@ -132,6 +132,8 @@ class SplashIntentController extends GetxController {
   
   void skipAd() {
     // 用户手动跳过广告
+    if (_isSkiped.value) return; // 防止多次调用
+    _isSkiped.value = true;
     _onAdFinished();
   }
   
@@ -142,16 +144,18 @@ class SplashIntentController extends GetxController {
   
   // 添加手动跳转方法供调试使用
   void manualNavigate() {
-    _navigateToTarget(manualNavigate: true);
+    _navigateToTarget(manual: true);
   }
-  
-  void _navigateToTarget({bool manualNavigate = false}) {
+
+  void _navigateToTarget({bool manual = false}) {
     // 检查是否开启调试模式
     final devDebugSplash = Env.current.devDebugSplash;
-    if (devDebugSplash == 'true' && !manualNavigate) {
-      // 调试模式：不自动跳转
-      canNavigate.value = false;
-      return;
+    if (devDebugSplash == 'true' && !manual) {
+      // 调试模式：不自动跳转.但是手动点击还是可以跳转
+      if(!_isSkiped.value) {
+        canNavigate.value = false;
+        return;
+      }
     }
     // 确保 AuthIntentController 已初始化
     final authController = Get.find<AuthIntentController>();

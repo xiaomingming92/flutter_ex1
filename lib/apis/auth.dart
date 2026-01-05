@@ -2,7 +2,7 @@
  * @Author        : xmm wujixmm@gmail.com
  * @Date          : 2025-10-28 09:00:37
  * @LastEditors  : Z2-WIN\xmm wujixmm@gmail.com
- * @LastEditTime : 2025-12-26 17:02:35
+ * @LastEditTime : 2026-01-05 15:55:08
  * @FilePath     : \ex1\lib\apis\auth.dart
  * @Description   : 
  * 
@@ -72,7 +72,7 @@ class LoginRes {
   final String refreshToken;
   final int accessExpiresAt;
   final int refreshExpiresAt;
-  dynamic userInfo;
+  dynamic userKeyInfo;
   
   LoginRes({
     required this.code,
@@ -81,7 +81,7 @@ class LoginRes {
     required this.refreshToken,
     required this.accessExpiresAt,
     required this.refreshExpiresAt,
-    this.userInfo,
+    this.userKeyInfo,
   });
   
   /// 从 JSON Map 创建 LoginRes 实例
@@ -93,7 +93,7 @@ class LoginRes {
       refreshToken: json['refreshToken'] as String? ?? json['refresh_token'] as String? ?? '',
       accessExpiresAt: json['accessExpiresAt'] as int? ?? json['access_expires_at'] as int? ?? 0,
       refreshExpiresAt: json['refreshExpiresAt'] as int? ?? json['refresh_expires_at'] as int? ?? 0,
-      userInfo: json['userInfo'] ?? json['user_info'],
+      userKeyInfo: json['userKeyInfo'] ?? json['userKeyInfo'] ,
     );
   }
   

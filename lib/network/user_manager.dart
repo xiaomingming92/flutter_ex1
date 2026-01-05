@@ -4,9 +4,12 @@
  * @FilePath     : \ex1\lib\network\user_manager.dart
  * @Description   : 用户详情管理 - 负责用户信息缓存
  */
+import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'package:ex1/apis/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 // import '../apis/user.dart';
 
 /// UGC 内容模型
@@ -27,7 +30,7 @@ class UGCContent {
     required this.commentCount,
   });
   
-  factory UGCContent.fromJson(Map<String, dynamic> json) {
+  factory UGCContent.fromMap(Map<String, dynamic> json) {
     return UGCContent(
       id: json['id'] ?? '',
       title: json['title'] ?? '',
@@ -38,7 +41,7 @@ class UGCContent {
     );
   }
   
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'title': title,
@@ -54,13 +57,14 @@ class UGCContent {
 class UserInfo {
   final String id;
   final String username;
-  final String? maskedPhone; // 脱敏手机号，如：138****5678
-  final String? name;
-  final String? avatar;
   final String bio;
   final DateTime createdAt;
   final DateTime updatedAt;
   final List<String> roles; // 角色列表
+  final String? maskedPhone; // 脱敏手机号，如：138****5678
+  final String? name;
+  final String? avatar;
+  final String? phone;
   
   // 统计数据（需要从API获取或计算）
   final int? postCount;
@@ -71,13 +75,14 @@ class UserInfo {
   UserInfo({
     required this.id,
     required this.username,
-    this.maskedPhone,
-    this.name,
-    this.avatar,
     required this.bio,
     required this.createdAt,
     required this.updatedAt,
     required this.roles,
+    this.maskedPhone,
+    this.phone,
+    this.name,
+    this.avatar,
     this.postCount,
     this.followerCount,
     this.followingCount,
@@ -85,28 +90,28 @@ class UserInfo {
   });
   
   /// 从 Map 数据创建 UserInfo
-  factory UserInfo.fromJson(Map<String, dynamic> json) {
+  factory UserInfo.fromMap(Map<String, dynamic> json) {
     return UserInfo(
-      id: json['id'] ?? '',
+      id: json['id'],
       username: json['username'] ?? json['nickname'] ?? json['name'] ?? '未知用户',
-      maskedPhone: json['phone'] ?? json['maskedPhone'],
-      name: json['name'] ?? json['nickname'] ?? json['username'],
+      maskedPhone: json['maskedPhone'] ?? json['maskedPhone'] ?? '',
+      name: json['name'] ?? '',
       avatar: json['avatar'] ?? json['headImage'] ?? json['profilePicture'],
       bio: json['bio'] ?? json['description'] ?? '',
       createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
       updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
       roles: List<String>.from(json['roles'] ?? []),
-      postCount: json['postCount'] ?? json['post_count'],
-      followerCount: json['followerCount'] ?? json['follower_count'],
-      followingCount: json['followingCount'] ?? json['following_count'],
+      postCount: json['postCount'] ?? 0,
+      followerCount: json['followerCount'] ?? 0,
+      followingCount: json['followingCount'] ?? 0,
       ugcContents: json['ugcContents'] != null 
-          ? (json['ugcContents'] as List).map((e) => UGCContent.fromJson(e)).toList()
+          ? (json['ugcContents'] as List).map((e) => UGCContent.fromMap(e)).toList()
           : null,
     );
   }
   
   /// 转换为 Map 数据
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'username': username,
@@ -120,7 +125,7 @@ class UserInfo {
       'postCount': postCount,
       'followerCount': followerCount,
       'followingCount': followingCount,
-      'ugcContents': ugcContents?.map((e) => e.toJson()).toList(),
+      'ugcContents': ugcContents?.map((e) => e.toMap()).toList(), 
     };
   }
   
@@ -135,6 +140,7 @@ class UserInfo {
       roles: [],
     );
   }
+  
 }
 
 class UserManager {
@@ -144,23 +150,32 @@ class UserManager {
 
   static Map<String, dynamic>? _cachedUserInfo;
   static String? _cachedMaskedPhone;
-  static UserInfo? _currentUser;
+  static UserInfo? _currentUser;  // 回到普通变量
+  
+  // 事件总线 - 目前使用 StreamController 替代 Get.eventBus
+  static final StreamController<UserInfo?> _userInfoSubject = StreamController<UserInfo?>.broadcast();
   static UserInfo? get currentUser => _currentUser;
 
   /// 缓存用户详情信息
-  static Future<void> setUserInfo(Map<String, dynamic> userInfo) async {
+  static Future<void> setUserInfo(Map<String, dynamic> userInfo, ) async {
     _cachedUserInfo = userInfo;
-    _currentUser = UserInfo.fromJson(userInfo);
+    _currentUser = UserInfo.fromMap(userInfo); // 回到普通赋值
     await _storage.write(
       key: _userInfoKey, 
       value: json.encode(userInfo)
     );
+    // 发送数据变化事件，让监听器感知 - 使用 StreamController
+    _userInfoSubject.add(_currentUser);
   }
+  
 
   /// 获取缓存的用户详情
   static Map<String, dynamic>? getUserInfo() {
     return _cachedUserInfo;
   }
+  
+  /// 获取用户信息变化流（替代 Get.eventBus）
+  static Stream<UserInfo?> get userInfoStream => _userInfoSubject.stream;
 
   /// 异步获取用户详情（优先从缓存获取）
   static Future<Map<String, dynamic>?> getUserInfoAsync() async {
@@ -172,7 +187,7 @@ class UserManager {
     if (userInfoString != null) {
       try {
         _cachedUserInfo = json.decode(userInfoString) as Map<String, dynamic>;
-        _currentUser = UserInfo.fromJson(_cachedUserInfo!);
+        _currentUser = UserInfo.fromMap(_cachedUserInfo!); // 回到普通赋值
         return _cachedUserInfo;
       } catch (e) {
         print('Failed to parse cached user info: $e');
@@ -189,10 +204,18 @@ class UserManager {
       if (basicUserInfo == null) {
         throw Exception('用户未登录');
       }
-      
-      // 2. 转换为 UserInfo 对象
-      _currentUser = UserInfo.fromJson(basicUserInfo);
-      
+      if(basicUserInfo['id'] == null) {
+        throw Exception('用户ID为空');
+      } else {
+        // 获取完整用户信息
+        if(!basicUserInfo.containsKey('maskedPhone')) {
+          final fullUserInfo = await UserApi.getUserInfoMap();
+          final fullUserInfoData = fullUserInfo.data;
+          if(fullUserInfoData != null) {
+            await setUserInfo(fullUserInfoData);
+          }
+        }
+      }
       // 3. 获取统计数据（如果需要）
       await _loadUserStatistics();
       
@@ -230,7 +253,7 @@ class UserManager {
     
     try {
       // TODO: 调用获取UGC内容的API
-      // final response = await ApiService.getUserUGCContent(_currentUser!.id);
+      // final response = await ApiService.getUserUGCContent(_currentUser.value!.id);
       // 更新UGC内容
     } catch (e) {
       print('获取UGC内容失败: $e');
@@ -282,20 +305,20 @@ class UserManager {
       
       // 更新当前用户对象
       if (_currentUser != null) {
-        _currentUser = UserInfo.fromJson(currentInfo);
+        _currentUser = UserInfo.fromMap(currentInfo);
       }
     }
   }
 
   /// 从登录响应中提取并缓存用户信息
-  static Future<void> setUserInfoFromLogin(dynamic loginData) async {
+  static Future<void> setUserKeyInfoFromLogin(dynamic loginData) async {
     if (loginData == null) return;
 
-    // 如果loginData有userInfo字段
-    if (loginData is Map<String, dynamic> && loginData.containsKey('userInfo')) {
-      final userInfo = loginData['userInfo'];
-      if (userInfo is Map<String, dynamic>) {
-        await setUserInfo(userInfo);
+    // 如果loginData有userKeyInfo字段
+    if (loginData is Map<String, dynamic> && loginData.containsKey('userKeyInfo')) {
+      final userKeyInfo = loginData['userKeyInfo'];
+      if (userKeyInfo is Map<String, dynamic>) {
+        await setUserInfo(userKeyInfo); 
         return;
       }
     }
